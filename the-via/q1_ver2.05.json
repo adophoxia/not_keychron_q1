@@ -54,14 +54,14 @@
         ]
     },
     "customKeycodes": [
-        {"name": "Mac MCon", "title": "macOS Mission Control", "shortName": "MCon"},
-        {"name": "Mac LPad", "title": "macOS Launchpad", "shortName": "LPad"},
-        {"name": "·", "title": "{undefined}", "shortName": "·"},
-        {"name": "·", "title": "{undefined}", "shortName": "·"},
-        {"name": "·", "title": "{undefined}", "shortName": "·"},
-        {"name": "·", "title": "{undefined}", "shortName": "·"},
-        {"name": "·", "title": "{undefined}", "shortName": "·"},
-        {"name": "·", "title": "{undefined}", "shortName": "·"},
+        {"name": "Mission Control", "title": "macOS Mission Control", "shortName": "MCtrl"},
+        {"name": "Launchpad", "title": "macOS Launchpad", "shortName": "LPad"},
+        {"name": "Left Option", "title": "macOS Left Option", "shortName": "LOpt"},
+        {"name": "Right Option", "title": "macOS Right Option", "shortName": "ROpt"},
+        {"name": "Left Command", "title": "macOS Left Command", "shortName": "LComm"},
+        {"name": "Right Command", "title": "macOS Right Command", "shortName": "RComm"},
+        {"name": "Task View", "title": "Windows Task View", "shortName": "TView"},
+        {"name": "File Explorer", "title": "Windows File Explorer", "shortName": "Explorer"},
         {"name": "·", "title": "{undefined}", "shortName": "·"},
         {"name": "Version", "title": "Type Firmware Version", "shortName": "Ver?"}
     ],
