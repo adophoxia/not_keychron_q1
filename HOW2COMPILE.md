@@ -34,7 +34,7 @@ Now, if you're a YouTuber that uses his "sponsored" KB for 3 days and then store
 
 Luckily, Keychron's design always accounted for an external I²C EEPROM IC, but it is not populated during production.
 
-<img src="docs/image-01.jpg" width="50%">
+<center><img src="docs/image-01.jpg" width="50%"></center>
 
 All that is needed is to solder on:
 1. a compatible 8-SOIC *[footprint]* I²C EEPROM module IC
@@ -90,3 +90,6 @@ All that is needed is to solder on:
 
 5.  That should be it.  You're ready to compile.
 
+***
+
+-- Made with :heart: &nbsp; by Vino Rodrigues
