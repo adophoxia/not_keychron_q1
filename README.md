@@ -2,7 +2,7 @@
 
 This is ***not*** the code to the Keychron Q1 *(but it is the one I use)*.
 
-<img src="docs/image-00.png" width="50%">
+<center><img src="docs/image-00.png" width="50%"></center>
 
 ***
 
