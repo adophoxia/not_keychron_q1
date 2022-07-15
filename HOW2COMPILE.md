@@ -1,4 +1,13 @@
-# Not Keychron Q1 - How to compile this source
+# `not_keychron_q1` - How to compile this source
+
+Compile QMK for the Keychron Q1, using either
+ - an external EEPROM *(Electrically Erasable Programmable Read-Only Memory)*
+
+    ..or..
+
+ - @tzarc's EFL *(Embedded Flash Library)* driver and wear-leveling algorithm.
+
+&nbsp;
 
 This code in not intended to be compiled as standalone - rather it needs to be incorporated in the source base of the [`qmk/qmk_firmware`](https://github.com/qmk/qmk_firmware) project.
 
@@ -11,7 +20,7 @@ Furthermore - the Keychron Q1 board referred to herein will ***NOT*** work on ei
 
 This code base supports the entire Keychron Q1V2 board fleet *(a.k.a. "Q1 STM32")* with one code base and one VIA sideload file.  To compile you will need to either:
 
-1. **EFL and Wear-Leveling**: Compile off the [`qmk/qmk_firmware:develop`](https://github.com/qmk/qmk_firmware/tree/develop) repo/branch, that includes the EFL *(Embedded Flash Library)* driver, and the "wear-leveling algorithm" added by @tzarc - added with PR's [#16996](https://github.com/qmk/qmk_firmware/pull/16996), [#17651](https://github.com/qmk/qmk_firmware/pull/17651), and  [#17661](https://github.com/qmk/qmk_firmware/pull/17661).
+1. **EFL and Wear-Leveling**: Compile off the [`qmk/qmk_firmware:develop`](https://github.com/qmk/qmk_firmware/tree/develop) repo/branch, that includes the EFL driver, and the "wear-leveling algorithm" - added with PR's [#16996](https://github.com/qmk/qmk_firmware/pull/16996), [#17651](https://github.com/qmk/qmk_firmware/pull/17651), and  [#17661](https://github.com/qmk/qmk_firmware/pull/17661).
 
     ..or..
 
@@ -61,7 +70,7 @@ All that is needed is to solder on:
 
       - Mac:
 
-        ```sh
+        ```bash
         mkdir keyboards/notkeychron
         ln -s /path/to/this/repo keyboards/notkeychron/q1
         ```
@@ -80,7 +89,7 @@ All that is needed is to solder on:
 
       - Mac & Win
 
-        ```sh
+        ```cmd
         git submodule add https://github.com/vinorodrigues/not_keychron_q1
         mkdir keyboards/notkeychron
         git mv not_keychron_q1 keyboards/notkeychron/q1
