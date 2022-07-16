@@ -37,7 +37,7 @@ This code base supports the entire Keychron Q1V2 board fleet *(a.k.a. "Q1 STM32"
 
 When the predecessor of QMK (TMK) was first written, it was written for the Atmel AVR chip, most commonly the [**ATmega32U4**](https://www.microchip.com/en-us/product/ATmega32U4).  This MCU *(MicroController Unit)* featured 32KB Flash *(where the firmware resides)*, ***and*** 1KB EEPROM *(where the dynamic keymap used by VIA and some other variable, but persistent, settings are stored)*.
 
-Evolution of QMK moved on to the ChibiOS/HAL based STMicroelectronics STM32 class of ARM Cortex MCU's .. and in the case of the Q1 this is the [**STM32L432**](https://www.st.com/en/microcontrollers-microprocessors/stm32l432kc.html) that featured 256KB Flash *(8x more than the AVR)*, but no EEPROM.  To account for the lack of EEPROM, QMK has written in an EFL driver *(that uses a portion of the Flash as an emulated EEPROM)*.  This works across a plethora of ARM based MCU's ... **but this method has a caveat**: Flash is not as endurable as EEPROM.  For example, the STM32L432 spec states that the MCU has a minimum write endurance of 10,000 cycles, where as if you compare it to the M24C32-FMN6TP EEPROM IC module, it's endurance is 4,000,000 write cycles.  This means that, by adding an external EEPROM IC to compliment the MCU, you get a keyboard that can handle 400x more write cycles to it's dynamic keymap / settings storage space.
+Evolution of QMK moved on to the ChibiOS/HAL based STMicroelectronics STM32 class of ARM Cortex MCU's .. and in the case of the Q1 this is the [**STM32L432**](https://www.st.com/en/microcontrollers-microprocessors/stm32l432kc.html) that featured 256KB Flash *(8x more than the AVR)*, but no EEPROM.  To account for the lack of EEPROM, QMK has written in an EFL/EL driver *(that uses a portion of the Flash as an emulated EEPROM)*.  This works across a plethora of ARM based MCU's ... **but this method has a caveat**: Flash is not as endurable as EEPROM.  For example, the STM32L432 spec states that the MCU has a minimum write endurance of 10,000 cycles, where as if you compare it to the M24C32-FMN6TP EEPROM IC module, it's endurance is 4,000,000 write cycles.  This means that, by adding an external EEPROM IC to compliment the MCU, you get a keyboard that can handle 400x more write cycles to it's dynamic keymap / settings storage space.
 
 Now, if you're a YouTuber that uses his "sponsored" KB for 3 days and then stores it - then this is all meaningless and the Emulated EEPROM will do just fine.  But if you've built an end-game unit that you intend to use daily for the next 5-7 years, then this would be something you'd be interested in.
 
@@ -49,14 +49,14 @@ All that is needed is to solder on:
 1. a compatible 8-SOIC *[footprint]* I²C EEPROM module IC
 2. a 100nF / 0.1μF 0603 *[footprint]* Capacitor
 
-> :information_source: : If you're compiling for the EFL driver you don't need to solder anything.
+> :information_source: : If you're compiling for the EFL/WL driver you don't need to solder anything.
 
 ## Preparation
 
 1. If you haven't already create an instance of the source code on your computer - you'll want to use either a fork of, or a clone of, one of the following:
 
-    * [`qmk/qmk_firmware:develop`](https://github.com/qmk/qmk_firmware/tree/develop) - The `develop` branch at QMK.  *(Works for both external EEPROM and EFL compile.)*
-    * [`qmk/qmk_firmware`](https://github.com/qmk/qmk_firmware) - The core QMK code base.  *(Only works for the external EEPROM compile, __as of July 2022__. After the next quarterly merge this should work on the EFL too.)*
+    * [`qmk/qmk_firmware:develop`](https://github.com/qmk/qmk_firmware/tree/develop) - The `develop` branch at QMK.  *(Works for both external EEPROM and EFL/WL compile.)*
+    * [`qmk/qmk_firmware`](https://github.com/qmk/qmk_firmware) - The core QMK code base.  *(Only works for the external EEPROM compile, __as of July 2022__. After the next quarterly merge this should work on the EFL/WL too.)*
 
 2. Navigate to the root of the repo's folder.
 
@@ -102,7 +102,22 @@ All that is needed is to solder on:
     ```cmd
     make notkeychron/q1/v2:via
     ```
-    
+
+***
+
+## VIA
+
+The VIA sideload file provided by Keychron will not work in this source - you will need to use the version provided.
+
+See: https://github.com/vinorodrigues/not_keychron_q1/tree/main/the-via
+
+> :shrug: : IMO there is no need to create an instance of each variant of the keyboard ... both QMK and VIA can handle multiple layouts in one source base.
+
+## Vial
+
+Vial's source base does not include the EFL/WL source base yet *(as of 15 Jul 2022 )* ... but the external EEPROM variant will work.
+
+> :information_source: : *For now follow the instructions at https://get.vial.today/docs/*
 
 ***
 
