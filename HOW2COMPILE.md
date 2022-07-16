@@ -17,16 +17,16 @@ Compile QMK for the Keychron Q1, using either
 
 This code in not intended to be compiled as standalone - rather it needs to be incorporated in the source base of the [`qmk/qmk_firmware`](https://github.com/qmk/qmk_firmware) project.
 
-Furthermore - the Keychron Q1 board referred to herein will ***NOT*** work on either the [`keychron/qmk_firmware:playground`](https://github.com/keychron/qmk_firmware/tree/playground) repo/branch, nor the core [`qmk/qmk_firmware:master`](https://github.com/qmk/qmk_firmware/tree/master) repo/branch *(unless it has the EEPROM added on)*
+Furthermore - the Keychron Q1 board referred to herein will ***NOT*** work on either the [`keychron/qmk_firmware:playground`](https://github.com/keychron/qmk_firmware/tree/playground) repo:branch, nor the core [`qmk/qmk_firmware:master`](https://github.com/qmk/qmk_firmware/tree/master) repo:branch *(unless it has the EEPROM added on)*
 
 > :warning: : Do not compile this code from the Keychron's QMK fork.
 
 
 ## About
 
-This code base supports the entire Keychron Q1V2 board fleet *(a.k.a. "Q1 STM32")* with one code base and one VIA sideload file.  To compile you will need to either:
+This code base supports the entire Keychron Q1V2 board fleet *(excluding the JIS variant)* with one code base and one VIA sideload file.  To compile you will need to either:
 
-1. **EFL and Wear-Leveling**: Compile off the [`qmk/qmk_firmware:develop`](https://github.com/qmk/qmk_firmware/tree/develop) repo/branch, that includes the EFL driver, and the "wear-leveling algorithm" - added with PR's [#16996](https://github.com/qmk/qmk_firmware/pull/16996), [#17651](https://github.com/qmk/qmk_firmware/pull/17651), and  [#17661](https://github.com/qmk/qmk_firmware/pull/17661).
+1. **EFL and Wear-Leveling**: Compile off the [`qmk/qmk_firmware:develop`](https://github.com/qmk/qmk_firmware/tree/develop) repo:branch, that includes the EFL driver, and the "wear-leveling algorithm" - added with PR's [#16996](https://github.com/qmk/qmk_firmware/pull/16996), [#17651](https://github.com/qmk/qmk_firmware/pull/17651), and  [#17661](https://github.com/qmk/qmk_firmware/pull/17661).
 
     ..or..
 
@@ -34,9 +34,9 @@ This code base supports the entire Keychron Q1V2 board fleet *(a.k.a. "Q1 STM32"
 
     Current IC's tested include:
 
-    * **`M24C32-FMN6TP`**: 32Kbit (8 x 4Kbit) I²C 1MHz 450ns 8-SOIC EEPROM module *(total 4096 bytes)*
+    * [**`M24C32-FMN6TP`**](https://www.st.com/en/memories/m24c32-f.html): 32Kbit (8 x 4Kbit) I²C 1MHz 450ns 8-SOIC EEPROM module *(total 4096 bytes)*
 
-
+    &nbsp;
     > :shrug: : IMO this is the better method
 
 
@@ -107,22 +107,22 @@ All that is needed is to solder on:
 5.  That should be it.  You're ready to compile.
 
     ```cmd
-    make notkeychron/q1/v2:via
+    make notkeychron/q1/v2:ansi_knob
     ```
 
 ## Compile
 
 The source code supports all versions of the Q1.  To compile use the following command line:
 
-| Variant | Feature | Compile command |
-|---------|---------|-----------------|
-| Q1V2 Ansi Knob | EFL/WL | `make notkeychron/q1/v2:via` <sup>1</sup> |
-| Q1V2 Ansi Knob | ext. EEPROM | `make notkeychron/q1/v2:via EEPROM=yes` |
-| :clock1: &nbsp; Q1V2 Ansi | EFL/WL | `make notkeychron/q1/v2:ansi` |
+| Variant | Driver | Compile command |
+|---------|--------|-----------------|
+| Q1V2 Ansi Knob | EFL/WL | `make notkeychron/q1/v2:ansi_knob` <sup>1</sup> |
+| Q1V2 Ansi Knob | ext. EEPROM | `make notkeychron/q1/v2:ansi_knob EEPROM=1` |
+| Q1V2 Ansi | EFL/WL | `make notkeychron/q1/v2:ansi` |
 | :clock2: &nbsp; Q1V2 ISO UK | EFL/WL | `make notkeychron/q1/v2:iso_uk` |
 | :clock230: &nbsp; Q1V2 ISO UK Knob | EFL/WL | `make notkeychron/q1/v2:iso_uk_knob` |
 | | | ***The following are special builds*** |
-| :clock3: &nbsp;  Author's Q1V2 <sup>3</sup> | ext. EEPROM | `make notkeychron/q1/v2:vinorodrigues EEPROM=yes` |
+| :clock3: &nbsp;  Author's Q1V2 <sup>3</sup> | ext. EEPROM | `make notkeychron/q1/v2:vinorodrigues EEPROM=1` |
 | :clock4: &nbsp; Q1V2 ISO DE Knob <sup>4</sup> | EFL/WL | `make notkeychron/q1/v2:iso_de`  |
 | :clock5: &nbsp; Q1V2 ISO FR Knob <sup>5</sup> | EFL/WL | `make notkeychron/q1/v2:iso_fr`  |
 

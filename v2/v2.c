@@ -3,21 +3,6 @@
 
 #include "v2.h"
 
-// /* ----- Compiler flags ----- */
-
-#ifdef USE_EEPROM
-    #ifndef __DEDUPE_MSG__
-        #pragma message "***  ***"
-        #define __DEDUPE_MSG__
-    #endif
-#endif
-#ifdef USE_EFL_WL
-    #ifndef __DEDUPE_MSG__
-        #pragma message "***  ***"
-        #define __DEDUPE_MSG__
-    #endif
-#endif
-
 /* ----- DIP Switch ----- */
 
 #ifdef DIP_SWITCH_ENABLE

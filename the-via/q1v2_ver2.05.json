@@ -69,8 +69,8 @@
     "layouts": {
         "labels": [
             ["Top Right Position", "Key", "Rotary Encoder", "Badge"],
-            "ISO Enter Key",
-            "ISO Left Shift"
+            ["Enter Key", "Ansi", "ISO"],
+            ["Left Shift", "Ansi", "ISO"]
         ],
         "keymap": [
             [{"c":"#777777"},"0,0",{"x":0.25,"c":"#cccccc"},"0,1","0,2","0,3","0,4",{"x":0.25},"0,5","0,6","0,7","0,8",{"x":0.25},"0,9","0,10","0,11","0,12",{"x":0.25,"c":"#aaaaaa"},"0,13",{"x":0.25},"0,15\n\n\n0,0",{"x":0.25,"w":0.75},"0,15\n\n\n0,1",{"h":0.5},"5,7\n\n\n0,1",{"x":0.25,"d":true},"\n\n\n0,2"],
