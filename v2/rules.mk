@@ -5,7 +5,13 @@
 #   change yes to no to disable
 #   the remaining set is is the `info.json` file
 
-EEPROM_DRIVER = i2c            # Dynamic keymap and settings stored in EEPROM
+EEPROM ?= yes
+ifneq ($(strip $(EEPROM)), yes)
+	EEPROM_DRIVER = i2c        # Dynamic keymap and settings stored in EEPROM
+else
+	EEPROM_DRIVER = wear_leveling
+	WEAR_LEVELING_DRIVER = embedded_flash
+endif
 
 DIP_SWITCH_ENABLE = yes		   # Enabel DIP switch (mac/win slider)
 ENCODER_ENABLE = yes           # Enable Encoder

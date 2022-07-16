@@ -99,6 +99,11 @@ All that is needed is to solder on:
 
 5.  That should be it.  You're ready to compile.
 
+    ```cmd
+    make notkeychron/q1/v2:via
+    ```
+    
+
 ***
 
 -- Made with :heart: &nbsp; by Vino Rodrigues
