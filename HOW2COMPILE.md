@@ -118,16 +118,15 @@ The source code supports all versions of the Q1.  To compile use the following c
 |---------|---------|-----------------|
 | Q1V2 Ansi Knob | EFL/WL | `make notkeychron/q1/v2:via` <sup>1</sup> |
 | Q1V2 Ansi Knob | ext. EEPROM | `make notkeychron/q1/v2:via EEPROM=yes` |
-| *** | *** | ***The following are on the TODO list*** &nbsp; &nbsp; *** |
-| Q1V2 Ansi | EFL/WL | `make notkeychron/q1/v2:ansi` |
-| Q1V2 ISO UK | EFL/WL | `make notkeychron/q1/v2:iso_uk` |
-| Q1V2 ISO UK Knob | EFL/WL | `make notkeychron/q1/v2:iso_uk_knob` |
-| Q1V2 JIS <sup>2</sup> | EFL/WL | `make notkeychron/q1/v2:jis` |
-| Q1V2 JIS Knob <sup>2</sup> | EFL/WL | `make notkeychron/q1/v2:jis_knob` |
-| --- | --- | ***The following are special builds*** &nbsp; &nbsp; --- |
-| Vino's Q1V2 | <sup>3</sup> | `make notkeychron/q1/v2:vinorodrigues EEPROM=yes` |
-| Q1V2 ISO DE Knob <sup>4</sup> | EFL/WL | `make notkeychron/q1/v2:iso_de`  |
-| Q1V2 ISO FR Knob <sup>5</sup> | EFL/WL | `make notkeychron/q1/v2:iso_fr`  |
+| :clock1: &nbsp; Q1V2 Ansi | EFL/WL | `make notkeychron/q1/v2:ansi` |
+| :clock2: &nbsp; Q1V2 ISO UK | EFL/WL | `make notkeychron/q1/v2:iso_uk` |
+| :clock230: &nbsp; Q1V2 ISO UK Knob | EFL/WL | `make notkeychron/q1/v2:iso_uk_knob` |
+| :clock3: &nbsp; Q1V2 JIS <sup>2</sup> | EFL/WL | `make notkeychron/q1/v2:jis` |
+| :clock330: &nbsp; Q1V2 JIS Knob <sup>2</sup> | EFL/WL | `make notkeychron/q1/v2:jis_knob` |
+| | | ***The following are special builds*** |
+| :clock4: &nbsp;  Author's Q1V2 <sup>3</sup> | ext. EEPROM | `make notkeychron/q1/v2:vinorodrigues EEPROM=yes` |
+| :clock5: &nbsp; Q1V2 ISO DE Knob <sup>4</sup> | EFL/WL | `make notkeychron/q1/v2:iso_de`  |
+| :clock6: &nbsp; Q1V2 ISO FR Knob <sup>5</sup> | EFL/WL | `make notkeychron/q1/v2:iso_fr`  |
 
 <small>
     <sup>1</sup> = Default<br>
@@ -135,6 +134,7 @@ The source code supports all versions of the Q1.  To compile use the following c
     <sup>3</sup> = macOS only (OS toggle / DIP switch disabled ), Custom LED configurations and Layer lighting example.<br>
     <sup>4</sup> = German ISO Layout<br>
     <sup>5</sup> = French ISO Layout<br>
+    :clock12: = Code under development and not published yet
 </small>
 
 ***
