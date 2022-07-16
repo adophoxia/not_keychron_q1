@@ -121,12 +121,10 @@ The source code supports all versions of the Q1.  To compile use the following c
 | :clock1: &nbsp; Q1V2 Ansi | EFL/WL | `make notkeychron/q1/v2:ansi` |
 | :clock2: &nbsp; Q1V2 ISO UK | EFL/WL | `make notkeychron/q1/v2:iso_uk` |
 | :clock230: &nbsp; Q1V2 ISO UK Knob | EFL/WL | `make notkeychron/q1/v2:iso_uk_knob` |
-| :clock3: &nbsp; Q1V2 JIS <sup>2</sup> | EFL/WL | `make notkeychron/q1/v2:jis` |
-| :clock330: &nbsp; Q1V2 JIS Knob <sup>2</sup> | EFL/WL | `make notkeychron/q1/v2:jis_knob` |
 | | | ***The following are special builds*** |
-| :clock4: &nbsp;  Author's Q1V2 <sup>3</sup> | ext. EEPROM | `make notkeychron/q1/v2:vinorodrigues EEPROM=yes` |
-| :clock5: &nbsp; Q1V2 ISO DE Knob <sup>4</sup> | EFL/WL | `make notkeychron/q1/v2:iso_de`  |
-| :clock6: &nbsp; Q1V2 ISO FR Knob <sup>5</sup> | EFL/WL | `make notkeychron/q1/v2:iso_fr`  |
+| :clock3: &nbsp;  Author's Q1V2 <sup>3</sup> | ext. EEPROM | `make notkeychron/q1/v2:vinorodrigues EEPROM=yes` |
+| :clock4: &nbsp; Q1V2 ISO DE Knob <sup>4</sup> | EFL/WL | `make notkeychron/q1/v2:iso_de`  |
+| :clock5: &nbsp; Q1V2 ISO FR Knob <sup>5</sup> | EFL/WL | `make notkeychron/q1/v2:iso_fr`  |
 
 <small>
     <sup>1</sup> = Default<br>
@@ -136,6 +134,8 @@ The source code supports all versions of the Q1.  To compile use the following c
     <sup>5</sup> = French ISO Layout<br>
     :clock12: = Code under development and not published yet
 </small>
+
+*(The JIS version is shaped differently and will reside in a separate repo.)*
 
 ***
 
@@ -152,6 +152,27 @@ See: https://github.com/vinorodrigues/not_keychron_q1/tree/main/the-via
 Vial's source base does not include the EFL/WL source base yet *(as of 15 Jul 2022 )* ... but the external EEPROM variant will work.
 
 > :information_source: : *For now follow the instructions at https://get.vial.today/docs/*
+
+***
+
+## Wear-Leveling for other KB's
+
+If you have a non-Q1 board you can quickly update your code to work with the EFL/WL code.
+
+1. Copy the `keychron/qmk_firmware:playground` code that matches your KB and port it into your branch cloned off `qmk/qmk_firmware:develop`, then;
+
+2. in `rules.mk` you want:
+    ```
+    EEPROM_DRIVER = wear_leveling
+    WEAR_LEVELING_DRIVER = embedded_flash
+    ```
+
+3. and in `config.h` you want:
+    ```
+    #define DYNAMIC_KEYMAP_EEPROM_MAX_ADDR 2047
+    #define WEAR_LEVELING_LOGICAL_SIZE 2048
+    #define WEAR_LEVELING_BACKING_SIZE (WEAR_LEVELING_LOGICAL_SIZE * 2)
+    ```
 
 ***
 
