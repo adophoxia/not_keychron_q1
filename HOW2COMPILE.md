@@ -1,5 +1,11 @@
 # `not_keychron_q1` - How to compile this source
 
+---
+
+THIS CODE IS INTENDED FOR EDUCATIONAL PURPOSES ONLY AND DOES NOT REPRESENT KEYCHRON IN ANY WAY.
+
+---
+
 Compile QMK for the Keychron Q1, using either
  - an external EEPROM *(Electrically Erasable Programmable Read-Only Memory)*
 
@@ -29,6 +35,7 @@ This code base supports the entire Keychron Q1V2 board fleet *(a.k.a. "Q1 STM32"
     Current IC's tested include:
 
     * **`M24C32-FMN6TP`**: 32Kbit (8 x 4Kbit) I²C 1MHz 450ns 8-SOIC EEPROM module *(total 4096 bytes)*
+
 
     > :shrug: : IMO this is the better method
 
@@ -102,6 +109,33 @@ All that is needed is to solder on:
     ```cmd
     make notkeychron/q1/v2:via
     ```
+
+## Compile
+
+The source code supports all versions of the Q1.  To compile use the following command line:
+
+| Variant | Feature | Compile command |
+|---------|---------|-----------------|
+| Q1V2 Ansi Knob | EFL/WL | `make notkeychron/q1/v2:via` <sup>1</sup> |
+| Q1V2 Ansi Knob | ext. EEPROM | `make notkeychron/q1/v2:via EEPROM=yes` |
+| *** | *** | ***The following are on the TODO list*** &nbsp; &nbsp; *** |
+| Q1V2 Ansi | EFL/WL | `make notkeychron/q1/v2:ansi` |
+| Q1V2 ISO UK | EFL/WL | `make notkeychron/q1/v2:iso_uk` |
+| Q1V2 ISO UK Knob | EFL/WL | `make notkeychron/q1/v2:iso_uk_knob` |
+| Q1V2 JIS <sup>2</sup> | EFL/WL | `make notkeychron/q1/v2:jis` |
+| Q1V2 JIS Knob <sup>2</sup> | EFL/WL | `make notkeychron/q1/v2:jis_knob` |
+| --- | --- | ***The following are special builds*** &nbsp; &nbsp; --- |
+| Vino's Q1V2 | <sup>3</sup> | `make notkeychron/q1/v2:vinorodrigues EEPROM=yes` |
+| Q1V2 ISO DE Knob <sup>4</sup> | EFL/WL | `make notkeychron/q1/v2:iso_de`  |
+| Q1V2 ISO FR Knob <sup>5</sup> | EFL/WL | `make notkeychron/q1/v2:iso_fr`  |
+
+<small>
+    <sup>1</sup> = Default<br>
+    <sup>2</sup> = Japanese Industrial Standard Layout<br>
+    <sup>3</sup> = macOS only (OS toggle / DIP switch disabled ), Custom LED configurations and Layer lighting example.<br>
+    <sup>4</sup> = German ISO Layout<br>
+    <sup>5</sup> = French ISO Layout<br>
+</small>
 
 ***
 
