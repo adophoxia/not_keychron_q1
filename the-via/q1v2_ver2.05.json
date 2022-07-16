@@ -1,7 +1,7 @@
 {
     "name": "Keychron Q1",
     "vendorId": "0x3434",
-    "productId": "0x0281",
+    "productId": "0x0280",
     "lighting": {
         "extends": "qmk_rgblight",
         "supportedLightingValues": [

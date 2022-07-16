@@ -21,7 +21,7 @@
     "url": "https://www.keychron.com/search?q=Q1",
     "usb": {
         "vid": "0x3434",
-        "pid": "0x0281",
+        "pid": "0x0280",
         "device_version": "2.5.0"
     },
     "layouts": {
