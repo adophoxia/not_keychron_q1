@@ -11,11 +11,13 @@
     #error "Please define the compile type"
 #endif
 
-#if defined(IS_ANSI) || \
-    defined(IS_ANSI_KNOB)
-    #define IS_KNOWN_VARIANT
+#ifdef IS_ANSI_KNOB
+    #define IS_ANSI
+#endif
+#ifdef IS_ISO_KNOB
+    #define IS_ISO
 #endif
 
-#ifndef IS_KNOWN_VARIANT
+#if !defined(IS_ANSI) && defined(IS_ISO)
     #error "Unknown keyboard variant"
 #endif

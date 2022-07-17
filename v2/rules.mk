@@ -18,10 +18,13 @@ ENCODER_ENABLE = yes           # Enable Encoder
 RGB_MATRIX_ENABLE = yes        # Enable RGB Matrix, with..
 RGB_MATRIX_DRIVER = CKLED2001  # ..custom RGB driver
 
+FACTORY_RESET = yes  # Enable Fn+J+Z factory reset hot keys
+
 # Enter lower-power sleep mode when on the ChibiOS idle thread
 OPT_DEFS += -DCORTEX_ENABLE_WFI_IDLE=TRUE
 
 # custom matrix setup
 CUSTOM_MATRIX = lite
 
-SRC += matrix.c test.c
+SRC += matrix.c \
+       keymaps.c

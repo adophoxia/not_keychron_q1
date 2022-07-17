@@ -122,7 +122,7 @@ The source code supports all versions of the Q1.  To compile use the following c
 | :clock2: &nbsp; Q1V2 ISO UK | EFL/WL | `make notkeychron/q1/v2:iso_uk` |
 | :clock230: &nbsp; Q1V2 ISO UK Knob | EFL/WL | `make notkeychron/q1/v2:iso_uk_knob` |
 | | | ***The following are special builds*** |
-| :clock3: &nbsp;  Author's Q1V2 <sup>3</sup> | ext. EEPROM | `make notkeychron/q1/v2:vinorodrigues EEPROM=1` |
+| Author's Q1V2 <sup>3</sup> | ext. EEPROM | `make notkeychron/q1/v2:vinorodrigues EEPROM=1` |
 | :clock4: &nbsp; Q1V2 ISO DE Knob <sup>4</sup> | EFL/WL | `make notkeychron/q1/v2:iso_de`  |
 | :clock5: &nbsp; Q1V2 ISO FR Knob <sup>5</sup> | EFL/WL | `make notkeychron/q1/v2:iso_fr`  |
 

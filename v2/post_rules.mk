@@ -7,3 +7,8 @@ ifneq ($(strip $(EEPROM)), yes)
 else
 	OPT_DEFS += -DUSE_EFL_WL
 endif
+
+FACTORY_RESET ?= yes
+ifeq ($(strip $(FACTORY_RESET)), yes)
+	OPT_DEFS += -DUSE_FACTORY_RESET
+endif

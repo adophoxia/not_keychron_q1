@@ -11,7 +11,7 @@
 
 #ifdef USE_EEPROM
     /* EEPROM Driver Configuration */
-    #define DYNAMIC_KEYMAP_EEPROM_MAX_ADDR 4095          // 32Kbit/4Kbyte - 1
+    //// #define DYNAMIC_KEYMAP_EEPROM_MAX_ADDR 4095
     #define EXTERNAL_EEPROM_I2C_BASE_ADDRESS 0b10100010  // Base I2C address for the EEPROM – shifted left by 1 as per i2c_master requirements
     #define EXTERNAL_EEPROM_BYTE_COUNT 4096              // Total size of the EEPROM in bytes
     // #define EXTERNAL_EEPROM_PAGE_SIZE 32                 // Page size of the EEPROM in bytes, as specified in the datasheet
@@ -20,7 +20,7 @@
     // #undef EXTERNAL_EEPROM_WP_PIN                        // If defined the WP pin will be toggled appropriately when writing to the EEPROM.	none
 #else
     /* EFL/WL Driver Configuration */
-    #define DYNAMIC_KEYMAP_EEPROM_MAX_ADDR 2047                          // 2Kbyte - 1
+    //// #define DYNAMIC_KEYMAP_EEPROM_MAX_ADDR 2047                          // 2Kbyte - 1
     #define WEAR_LEVELING_LOGICAL_SIZE 2048                              // Number of bytes "exposed" to the rest of QMK and denotes the size of the usable EEPROM.
     #define WEAR_LEVELING_BACKING_SIZE (WEAR_LEVELING_LOGICAL_SIZE * 2)  // Number of bytes used by the wear-leveling algorithm for its underlying storage, and needs to be a multiple of the logical size.
 #endif
@@ -35,7 +35,6 @@
 /* Disable DIP switch in matrix data */
 #define MATRIX_MASKED
 
-
 /* ---------------------
  * Encoder Configuration
  * --------------------- */
@@ -45,14 +44,6 @@
 #define ENCODERS_PAD_B { A8 }
 #define ENCODER_RESOLUTION 4
 #define ENCODER_DEFAULT_POS 0x3
-
-
-/* -------
- * USB HID
- * ------- */
-
-/* Enable receive custom command from host */
-#define RAW_HID_CMD 0xAB
 
 
 /* ----------
@@ -69,19 +60,31 @@
     /* Scan phase of led driver set as MSKPHASE_9CHANNEL(defined as 0x03 in CKLED2001.h) */
     #define PHASE_CHANNEL MSKPHASE_9CHANNEL
 
-    /* Limit the maximum brightness current of colour white to 500mA */
-    #define CONSTANT_CURRENT_STEP { 0xA6, 0xA6, 0x50, 0xA6, 0xA6, 0x50, 0xA6, 0xA6, 0x50, 0xA6, 0xA6, 0x50 }
-
     /* RGB Matrix Configuration */
-    #define DRIVER_1_LED_TOTAL 45
-    #define DRIVER_2_LED_TOTAL 37
+    #ifdef IS_ANSI_KNOB
+        #define DRIVER_1_LED_TOTAL 44
+        #define DRIVER_2_LED_TOTAL 37
+    #elif IS_ANSI
+        #define DRIVER_1_LED_TOTAL 45
+        #define DRIVER_2_LED_TOTAL 37
+    #else
+        #error "Unknown board variant"
+    #endif
     #define DRIVER_LED_TOTAL (DRIVER_1_LED_TOTAL + DRIVER_2_LED_TOTAL)
 
     /* turn off effects when suspended */
     #define RGB_DISABLE_WHEN_USB_SUSPENDED
 
+    /* Limit the maximum brightness current of colour white to 500mA */
+    // #define CONSTANT_CURRENT_STEP { 0xA6, 0xA6, 0x50, 0xA6, 0xA6, 0x50, 0xA6, 0xA6, 0x50, 0xA6, 0xA6, 0x50 }
+
+    /* Limit maximum brightness of LEDs to {x} out of 255. If not defined maximum brightness is set to 255 */
+    #define RGB_MATRIX_MAXIMUM_BRIGHTNESS 180
+
     /* RGB Matrix Animations */
     #define RGB_MATRIX_KEYPRESSES
+
+    #define RGB_MATRIX_STARTUP_MODE 16  // just for sh!ts and giggles
 
     #define ENABLE_RGB_MATRIX_SOLID_COLOR               // Static single color
     #define ENABLE_RGB_MATRIX_ALPHAS_MODS               // Static dual hue, speed is hue for secondary hue

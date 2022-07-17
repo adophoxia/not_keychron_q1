@@ -62,7 +62,7 @@
         {"name": "Right Command", "title": "macOS Right Command", "shortName": "RComm"},
         {"name": "Task View", "title": "Windows Task View", "shortName": "TView"},
         {"name": "File Explorer", "title": "Windows File Explorer", "shortName": "Explorer"},
-        {"name": "·", "title": "{undefined}", "shortName": "·"},
+        {"name": "Reset EEPROM", "title": "Reset Keymap to Default", "shortName": "Rst_EE"},
         {"name": "Version", "title": "Type Firmware Version", "shortName": "Ver?"}
     ],
     "matrix": {"rows": 6, "cols": 16},
