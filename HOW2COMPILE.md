@@ -56,6 +56,8 @@ All that is needed is to solder on:
 1. a compatible 8-SOIC *[footprint]* I²C EEPROM module IC
 2. a 100nF / 0.1μF 0603 *[footprint]* Capacitor
 
+<p align="center"><img src="docs/image-02.jpg" width="50%"></p>
+
 > :information_source: : If you're compiling for the EFL/WL driver you don't need to solder anything.
 
 ## Preparation
