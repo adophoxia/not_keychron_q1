@@ -161,7 +161,9 @@ Vial's source base does not include the EFL/WL source base yet *(as of 15 Jul 20
 
 If you have a non-Q1 board you can quickly update your code to work with the EFL/WL code.
 
-1. Copy the `keychron/qmk_firmware:playground` code that matches your KB and port it into your branch cloned off `qmk/qmk_firmware:develop`, then;
+1. Copy the `keychron/qmk_firmware:playground` code that matches your KB and the port it into your branch cloned from `qmk/qmk_firmware:develop`.
+
+    Then;
 
 2. in `rules.mk` you want:
     ```
