@@ -86,7 +86,7 @@ All that is needed is to solder on:
 
       - Win:
 
-        ```cmd
+        ```pwsh
         mkdir keyboards/notkeychron
         mklink /D \path\to\this\repo keyboards/notkeychron/q1
         ```
@@ -98,7 +98,7 @@ All that is needed is to solder on:
 
       - Mac & Win
 
-        ```cmd
+        ```pwsh
         git submodule add https://github.com/vinorodrigues/not_keychron_q1
         mkdir keyboards/notkeychron
         git mv not_keychron_q1 keyboards/notkeychron/q1
@@ -108,7 +108,7 @@ All that is needed is to solder on:
 
 5.  That should be it.  You're ready to compile.
 
-    ```cmd
+    ```pwsh
     make notkeychron/q1/v2:ansi_knob
     ```
 
@@ -161,18 +161,18 @@ Vial's source base does not include the EFL/WL source base yet *(as of 15 Jul 20
 
 If you have a non-Q1 board you can quickly update your code to work with the EFL/WL code.
 
-1. Copy the `keychron/qmk_firmware:playground` code that matches your KB and the port it into your branch cloned from `qmk/qmk_firmware:develop`.
+1. Copy the `keychron/qmk_firmware:playground` code that matches your KB and then port it into your branch cloned from `qmk/qmk_firmware:develop`.
 
     Then;
 
 2. in `rules.mk` you want:
-    ```
+    ```make
     EEPROM_DRIVER = wear_leveling
     WEAR_LEVELING_DRIVER = embedded_flash
     ```
 
 3. and in `config.h` you want:
-    ```
+    ```c
     #define WEAR_LEVELING_LOGICAL_SIZE 2048
     #define WEAR_LEVELING_BACKING_SIZE (WEAR_LEVELING_LOGICAL_SIZE * 2)
     ```
