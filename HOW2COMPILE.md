@@ -171,7 +171,6 @@ If you have a non-Q1 board you can quickly update your code to work with the EFL
 
 3. and in `config.h` you want:
     ```
-    #define DYNAMIC_KEYMAP_EEPROM_MAX_ADDR 2047
     #define WEAR_LEVELING_LOGICAL_SIZE 2048
     #define WEAR_LEVELING_BACKING_SIZE (WEAR_LEVELING_LOGICAL_SIZE * 2)
     ```
