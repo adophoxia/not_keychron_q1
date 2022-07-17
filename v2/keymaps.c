@@ -189,6 +189,14 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
             if (!get_mods()) {
                 if (!record->event.pressed) {
                     SEND_STRING(QMK_KEYBOARD ":" QMK_KEYMAP " (v" QMK_VERSION ")");
+                    // #ifdef VIA_ENABLE
+                    // /* show the Layout Options stored in VIA */
+                    // char str[9];
+                    // itoa(via_get_layout_options(), str, 16);
+                    // SEND_STRING(" [0x");
+                    // send_string_with_delay(str, 0);
+                    // SEND_STRING("]");
+                    // #endif
                 }
             }
             return false;
