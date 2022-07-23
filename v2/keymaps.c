@@ -5,62 +5,18 @@
 #include "keymaps.h"
 #include "version.h"
 
-// /* ----- Rotary Encoder ----- */
+
+// /* ----- DIP Switch ----- */
 //
-// #if defined(VIA_ENABLE) && defined(ENCODER_ENABLE)
+// #ifdef DIP_SWITCH_ENABLE
 //
-// #define NUM_ENCODERS 1
-// static uint8_t  encoder_state[NUM_ENCODERS] = {0};
-// static keypos_t encoder_cw[NUM_ENCODERS]    = {{ 8, 5 }};
-// static keypos_t encoder_ccw[NUM_ENCODERS]  = {{ 7, 5 }};
-//
-// void encoder_action_unregister(void) {
-//     for (int index = 0; index < NUM_ENCODERS; ++index) {
-//         if (encoder_state[index]) {
-//             keyevent_t encoder_event = (keyevent_t) {
-//                 .key = encoder_state[index] >> 1 ? encoder_cw[index] : encoder_ccw[index],
-//                 .pressed = false,
-//                 .time = (timer_read() | 1)
-//             };
-//             encoder_state[index] = 0;
-//             action_exec(encoder_event);
-//         }
-//     }
+// bool dip_switch_update_user(uint8_t index, bool active) {
+//     /* Send default layer state to host */
+//     system_switch_state_report(index, active);
+//     return true;
 // }
 //
-// void encoder_action_register(uint8_t index, bool clockwise) {
-//     keyevent_t encoder_event = (keyevent_t) {
-//         .key = clockwise ? encoder_cw[index] : encoder_ccw[index],
-//         .pressed = true,
-//         .time = (timer_read() | 1)
-//     };
-//     encoder_state[index] = (clockwise ^ 1) | (clockwise << 1);
-//     action_exec(encoder_event);
-// }
-//
-// void matrix_scan_user(void) {
-//     encoder_action_unregister();
-// }
-//
-// bool encoder_update_user(uint8_t index, bool clockwise) {
-//     encoder_action_register(index, clockwise);
-//     return false;
-// };
-//
-// #endif  // VIA_ENABLE && ENCODER_ENABLE
-
-
-/* ----- DIP Switch ----- */
-
-#ifdef DIP_SWITCH_ENABLE
-
-bool dip_switch_update_user(uint8_t index, bool active) {
-    /* Send default layer state to host */
-    system_switch_state_report(index, active);
-    return true;
-}
-
-#endif  // DIP_SWITCH_ENABLE
+// #endif  // DIP_SWITCH_ENABLE
 
 
 /* ----- Custom keycodes ----- */
@@ -132,7 +88,8 @@ bool __factory_rt(keyrecord_t *record, uint8_t data) {
     return true;
 }
 
-#endif
+#endif  // USE_FACTORY_RESET
+
 
 bool __consumer_send(keyrecord_t *record, uint16_t data) {
     if (record->event.pressed) {
