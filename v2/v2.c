@@ -23,6 +23,16 @@ const matrix_row_t matrix_mask[] = {
     0b1111111111101111,
 };
 
+#ifdef DIP_SWITCH_ENABLE
+
+bool dip_switch_update_kb(uint8_t index, bool active) {
+    if (!dip_switch_update_user(index, active)) return false;
+    if (index == 0) default_layer_set(1UL << (active ? DEFAULT_WIN_BASE : DEFAULT_MAC_BASE));
+    return true;
+}
+
+#endif  // DIP_SWITCH_ENABLE
+
 
 /* ----- Rotary Encoder ------ */
 
@@ -40,21 +50,4 @@ bool encoder_update_kb(uint8_t index, bool clockwise) {
     return true;
 }
 
-// #ifdef PAL_USE_CALLBACKS
-
-// void encoder0_pad_cb(void *param) {
-//     (void)param;
-//     encoder_insert_state(0);
-// }
-
-// void keyboard_post_init_kb(void) {
-//     pin_t encoders_pad_a[] = ENCODERS_PAD_A;
-//     pin_t encoders_pad_b[] = ENCODERS_PAD_B;
-//     palEnableLineEvent(encoders_pad_a[0], PAL_EVENT_MODE_BOTH_EDGES);
-//     palEnableLineEvent(encoders_pad_b[0], PAL_EVENT_MODE_BOTH_EDGES);
-//     palSetLineCallback(encoders_pad_a[0], encoder0_pad_cb, NULL);
-//     palSetLineCallback(encoders_pad_b[0], encoder0_pad_cb, NULL);
-// }
-
-// #endif  // PAL_USE_CALLBACKS
 #endif  // ENCODER_ENABLE

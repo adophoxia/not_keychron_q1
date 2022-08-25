@@ -6,16 +6,13 @@
 #define KEYBOARD_keychron_q1_q1_ansi_stm32l432_ec11  // legacy
 #define VIA_EEPROM_LAYOUT_OPTIONS_DEFAULT 0x04  // override of the layout options default value.
 
-#ifdef DYNAMIC_KEYMAP_LAYER_COUNT
-    #undef DYNAMIC_KEYMAP_LAYER_COUNT
-#endif
-#define DYNAMIC_KEYMAP_LAYER_COUNT 8  // why not
-
-#undef DIP_SWITCH_ENABLE  // don't need the DIP switch
-
-// #ifdef ENCODER_RESOLUTION
-//     #undef ENCODER_RESOLUTION
-// #endif
-// #define ENCODER_RESOLUTION 4
-
 #undef FORCE_NKRO  // NKRO stops macOS Fn key functionality
+
+/* ----
+ * Vial
+ * ---- */
+
+#define VIAL_KEYBOARD_UID {0x04, 0x17, 0xC1, 0xE0, 0x8A, 0x00, 0x25, 0x1B}
+// Unlock with Esc + Enter
+#define VIAL_UNLOCK_COMBO_ROWS { 0, 3 }
+#define VIAL_UNLOCK_COMBO_COLS { 0, 13 }

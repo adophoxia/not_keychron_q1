@@ -6,25 +6,14 @@
 #include "version.h"
 
 
-// /* ----- DIP Switch ----- */
-//
-// #ifdef DIP_SWITCH_ENABLE
-//
-// bool dip_switch_update_user(uint8_t index, bool active) {
-//     /* Send default layer state to host */
-//     system_switch_state_report(index, active);
-//     return true;
-// }
-//
-// #endif  // DIP_SWITCH_ENABLE
-
-
-/* ----- Custom keycodes ----- */
+/* ---------------
+ * Custom keycodes
+ * --------------- */
 
 #ifdef USE_FACTORY_RESET
 
-#define MAC_FN 1
-#define WIN_FN 3
+#define MAC_FN_LAYER 1
+#define WIN_FN_LAYER 3
 
 static void timer_3s_task(void);
 static void timer_300ms_task(void);
@@ -75,19 +64,6 @@ static void timer_300ms_task(void) {
     }
 }
 
-bool __factory_rt(keyrecord_t *record, uint8_t data) {
-    if (record->event.pressed) {
-        key_press_status |= data;
-        if ((key_press_status == KEY_PRESS_FACTORY_RESET) && (KEY_PRESS_FN != data)) {
-            timer_3s_buffer = sync_timer_read32() | 1;
-        }
-    } else {
-        key_press_status &= ~data;
-        timer_3s_buffer = 0;
-    }
-    return true;
-}
-
 #endif  // USE_FACTORY_RESET
 
 
@@ -120,20 +96,60 @@ bool __code_2(keyrecord_t *record, uint16_t data1, uint16_t data2) {
     return false;  // Skip all further processing of this key
 }
 
+bool __code_3(keyrecord_t *record, uint16_t data1, uint16_t data2, uint16_t data3) {
+    if (record->event.pressed) {
+        register_code(data1);
+        register_code(data2);
+        register_code(data3);
+    } else {
+        unregister_code(data3);
+        unregister_code(data2);
+        unregister_code(data1);
+    }
+    return false;  // Skip all further processing of this key
+}
+
+#ifdef USE_FACTORY_RESET
+
+bool __factory_rt(keyrecord_t *record, uint8_t data) {
+    if (record->event.pressed) {
+        key_press_status |= data;
+        if ((key_press_status == KEY_PRESS_FACTORY_RESET) && (KEY_PRESS_FN != data)) {
+            timer_3s_buffer = sync_timer_read32() | 1;
+        }
+    } else {
+        key_press_status &= ~data;
+        timer_3s_buffer = 0;
+    }
+    return true;
+}
+
+#endif  // USE_FACTORY_RESET
+
+
+/* -------------------
+ * Keypress processing
+ * ------------------- */
+
 bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
+    if (!process_record_user(keycode, record)) return false;
+
     switch (keycode) {
 
         // macOS keys
         case KC_MISSION_CONTROL: return __consumer_send(record, _AC_SHOW_ALL_WINDOWS);
         case KC_LAUNCHPAD: return __consumer_send(record, _AC_SHOW_ALL_APPS);
-        case KC_LEFT_OPTION: return __code_1(record, Q1_LOPT);
-        case KC_RIGHT_OPTION: return __code_1(record, Q1_ROPT);
-        case KC_LEFT_COMMAND: return __code_1(record, Q1_LCMD);
-        case KC_RIGHT_COMMAND: return __code_1(record, Q1_RCMD);
+        case KC_LEFT_OPTION: return __code_1(record, KC_LOPT);
+        case KC_RIGHT_OPTION: return __code_1(record, KC_ROPT);
+        case KC_LEFT_COMMAND: return __code_1(record, KC_LCMD);
+        case KC_RIGHT_COMMAND: return __code_1(record, KC_RCMD);
+        case KC_SIRI: return __code_2(record, KC_LCMD, KC_SPACE);
+        case KC_SCREEN_SHOT: return __code_3(record, KC_LSFT, KC_LCMD, KC_4);
 
         // Windows keys
-        case Q1_TASK_VIEW: return __code_2(record, KC_LWIN, KC_TAB);
+        case KC_TASK_VIEW: return __code_2(record, KC_LWIN, KC_TAB);
         case KC_FILE_EXPLORER: return __code_2(record, KC_LWIN, KC_E);
+        case KC_CORTANA: return __code_2(record, KC_LWIN, KC_C);
 
         // clear EEPROM
         case KC_CLEAR_EEPROM:
@@ -146,6 +162,15 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
             if (!get_mods()) {
                 if (!record->event.pressed) {
                     SEND_STRING(QMK_KEYBOARD ":" QMK_KEYMAP " (v" QMK_VERSION ")");
+
+                    SEND_STRING(" [E");
+                    #ifdef USE_EEPROM
+                    SEND_STRING("EPROM");
+                    #elif USE_EFL_WL
+                    SEND_STRING("FL/WL");
+                    #endif
+                    SEND_STRING("]");
+
                     // #ifdef VIA_ENABLE
                     // /* show the Layout Options stored in VIA */
                     // char str[9];
@@ -158,14 +183,11 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
 
-        // -----
-
+        // Factory reset
         #ifdef USE_FACTORY_RESET
 
-        #ifdef DIP_SWITCH_ENABLE
-        case MO(WIN_FN):
-        #endif
-        case MO(MAC_FN): return __factory_rt(record, KEY_PRESS_FN);
+        case MO(WIN_FN_LAYER):
+        case MO(MAC_FN_LAYER): return __factory_rt(record, KEY_PRESS_FN);
         case KC_J: return __factory_rt(record, KEY_PRESS_J);
         case KC_Z: return __factory_rt(record, KEY_PRESS_Z);
 

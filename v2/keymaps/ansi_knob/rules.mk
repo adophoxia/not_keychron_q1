@@ -6,4 +6,3 @@ SRC += v2_ansi_knob.c
 
 LTO_ENABLE = yes
 VIA_ENABLE = yes
-ENCODER_MAP_ENABLE = yes

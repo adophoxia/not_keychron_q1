@@ -8,12 +8,12 @@
 #ifdef RGB_MATRIX_ENABLE
 
 const ckled2001_led PROGMEM g_ckled2001_leds[DRIVER_LED_TOTAL] = {
-/* Refer to IS31 manual for these locations
- *   driver
- *   |  R location
- *   |  |     G location
- *   |  |     |     B location
- *   |  |     |     | */
+    /* Refer to IS31 manual for these locations
+     * driver
+     *   R location
+     *   |     G location
+     *   |     |     B location
+     *   |     |     | */
     {0, C_1,  A_1,  B_1},
     {0, C_2,  A_2,  B_2},
     {0, C_3,  A_3,  B_3},

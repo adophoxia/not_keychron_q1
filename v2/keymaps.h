@@ -6,27 +6,23 @@
 enum custom_keycodes {
     #if VIA_ENABLE
         KC_MISSION_CONTROL = USER00,
-        KC_LAUNCHPAD,
-        KC_LEFT_OPTION,
-        KC_RIGHT_OPTION,
-        KC_LEFT_COMMAND,
-        KC_RIGHT_COMMAND,
-        Q1_TASK_VIEW,
-        KC_FILE_EXPLORER,
-        KC_CLEAR_EEPROM,
-        KC_VERSION = USER09
     #else
         KC_MISSION_CONTROL = SAFE_RANGE,
-        KC_LAUNCHPAD,
-        KC_LEFT_OPTION,
-        KC_RIGHT_OPTION,
-        KC_LEFT_COMMAND,
-        KC_RIGHT_COMMAND,
-        Q1_TASK_VIEW,
-        KC_FILE_EXPLORER,
-        KC_CLEAR_EEPROM,
-        KC_VERSION
     #endif
+    KC_LAUNCHPAD,
+    KC_LEFT_OPTION,
+    KC_RIGHT_OPTION,
+    KC_LEFT_COMMAND,
+    KC_RIGHT_COMMAND,
+    KC_TASK_VIEW,
+    KC_FILE_EXPLORER,
+
+    KC_SIRI,
+    KC_SCREEN_SHOT,
+    KC_CORTANA,
+
+    KC_CLEAR_EEPROM,
+    KC_VERSION
 };
 
 enum macos_consumer_usages {
@@ -40,8 +36,11 @@ enum macos_consumer_usages {
 #define Q1_ROPT KC_RIGHT_OPTION
 #define Q1_LCMD KC_LEFT_COMMAND
 #define Q1_RCMD KC_RIGHT_COMMAND
-#define Q1_TASK Q1_TASK_VIEW
+#define Q1_SIRI KC_SIRI
+#define Q1_TASK KC_TASK_VIEW
 #define Q1_FLXP KC_FILE_EXPLORER
+#define Q1_SHOT KC_SCREEN_SHOT
+#define Q1_CRTN KC_CORTANA
 #define Q1_EECL KC_CLEAR_EEPROM
 #define Q1_VRSN KC_VERSION
 #define RGB_RMD RGB_RMOD

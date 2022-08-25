@@ -21,6 +21,7 @@
     /* EFL/WL Driver Configuration */
     #define WEAR_LEVELING_LOGICAL_SIZE 2048                              // Number of bytes "exposed" to the rest of QMK and denotes the size of the usable EEPROM.
     #define WEAR_LEVELING_BACKING_SIZE (WEAR_LEVELING_LOGICAL_SIZE * 2)  // Number of bytes used by the wear-leveling algorithm for its underlying storage, and needs to be a multiple of the logical size.
+    #define DYNAMIC_KEYMAP_EEPROM_MAX_ADDR 2047
 #endif
 
 /* ----------
@@ -29,9 +30,8 @@
 
 /* DIP switch matrix */
 #define DIP_SWITCH_MATRIX_GRID  { {5,4} }
+#define MATRIX_MASKED  // Disable DIP switch in matrix data
 
-/* Disable DIP switch in matrix data */
-#define MATRIX_MASKED
 
 /* ---------------------
  * Encoder Configuration
@@ -74,10 +74,14 @@
     #define RGB_DISABLE_WHEN_USB_SUSPENDED
 
     /* Limit the maximum brightness current of colour white to 500mA */
-    // #define CONSTANT_CURRENT_STEP { 0xA6, 0xA6, 0x50, 0xA6, 0xA6, 0x50, 0xA6, 0xA6, 0x50, 0xA6, 0xA6, 0x50 }
+    #define CONSTANT_CURRENT_STEP { 0xA6, 0xA6, 0x50, 0xA6, 0xA6, 0x50, 0xA6, 0xA6, 0x50, 0xA6, 0xA6, 0x50 }
 
     /* Limit maximum brightness of LEDs to {x} out of 255. If not defined maximum brightness is set to 255 */
-    // #define RGB_MATRIX_MAXIMUM_BRIGHTNESS 180
+    #define RGB_MATRIX_MAXIMUM_BRIGHTNESS 180
+
+    /* ----------
+     * Animations
+     * ---------- */
 
     /* RGB Matrix Animations */
     #define RGB_MATRIX_KEYPRESSES
@@ -130,6 +134,9 @@
     #define ENABLE_RGB_MATRIX_SOLID_SPLASH              // Hue & value pulse away from a single key hit then fades value out
     #define ENABLE_RGB_MATRIX_SOLID_MULTISPLASH         // Hue & value pulse away from multiple key hits then fades value out
 #endif  // RGB_MATRIX_ENABLE
+
+/* Enable caps-lock LED*/
+#define CAPS_LOCK_LED_INDEX 44  // 3,0
 
 
 /* -----------------------
