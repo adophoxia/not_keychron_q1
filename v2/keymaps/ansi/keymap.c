@@ -4,13 +4,6 @@
 #include QMK_KEYBOARD_H
 #include "keymaps.h"
 
-enum {
-    MAC_BASE,
-    MAC_FN,
-    WIN_BASE,
-    WIN_FN
-};
-
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /*
      * ┌───┐┌───┬───┬───┬───┐┌───┬───┬───┬───┐┌───┬───┬───┬───┐┌───┐┌───┐

@@ -1,6 +1,6 @@
 {
     "manufacturer": "Keychron",
-    "keyboard_name": "Q1 (or V1)",
+    "keyboard_name": "Q1",
     "maintainer": "vinorodrigues",
     "bootloader": "stm32-dfu",
     "diode_direction": "ROW2COL",

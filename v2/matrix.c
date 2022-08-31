@@ -1,13 +1,15 @@
 // Copyright 2021 Keychron (https://www.keychron.com)
 // SPDX-License-Identifier: GPL-2.0-or-later
 
+#include "matrix.h"
+
 #include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
-#include "util.h"
-#include "matrix.h"
+
 #include "debounce.h"
 #include "quantum.h"
+#include "util.h"
 
 // Pin connected to DS of 74HC595
 #define DATA_PIN A7

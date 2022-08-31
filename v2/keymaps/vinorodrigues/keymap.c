@@ -18,13 +18,6 @@ user_config_t user_config;
 #endif  // RGB_MATRIX_ENABLE
 
 
-enum {
-    MAC_BASE,
-    MAC_FN,
-    WIN_BASE,
-    WIN_FN
-};
-
 #define Q1_M_FN MO(MAC_FN)
 #define Q1_M_FC LT(MAC_FN, KC_CAPS)
 #define Q1_W_FN LT(WIN_FN, KC_APP)
@@ -68,57 +61,33 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     )
 };
 
-/* --------------
- * ROTARY ENCODER
- * -------------- */
-
-#ifdef ENCODER_ENABLE
-
-static uint8_t  encoder_state = 0;
-static keypos_t encoder_cw    = {8, 5};
-static keypos_t encoder_ccw   = {7, 5};
-
-void encoder_action_unregister(void) {
-    if (encoder_state) {
-        keyevent_t encoder_event = (keyevent_t){
-            .key = encoder_state >> 1 ? encoder_cw : encoder_ccw,
-            .pressed = false,
-            .time = (timer_read() | 1)
-        };
-        encoder_state = 0;
-        action_exec(encoder_event);
-    }
-}
-
-void encoder_action_register(uint8_t index, bool clockwise) {
-    if (index != 0) return;
-
-    keyevent_t encoder_event = (keyevent_t){
-        .key = clockwise ? encoder_cw : encoder_ccw,
-        .pressed = true,
-        .time = (timer_read() | 1)
-    };
-    encoder_state = (clockwise ^ 1) | (clockwise << 1);
-    action_exec(encoder_event);
-}
-
-bool encoder_update_user(uint8_t index, bool clockwise) {
-    encoder_action_register(index, clockwise);
-    return false;
-};
-
-#endif  // ENCODER_ENABLE
-
 
 /* ------------
- * Key specific
+ * LED OVERRIDE
  * ------------ */
 
-void matrix_scan_user(void) {
-    #ifdef ENCODER_ENABLE
-    encoder_action_unregister();
-    #endif  // ENCODER_ENABLE
+#ifdef RGB_MATRIX_ENABLE
+
+#define LED_FLAG_ALPHA_KEY 0x10  // Alpha keys (for Caps Lock)
+#define LED_FLAG_LAYER_IND 0x20  // Layer indicator
+#define LED_FLAG_UNUSED    0xC0  // 0b11000000
+
+const uint8_t g_led_config_new_flags[DRIVER_LED_TOTAL] = {
+    // Extended LED Index to Flag
+    0x01, 0x01, 0x01, 0x01, 0x01, 0x21, 0x21, 0x21, 0x21, 0x01, 0x01, 0x01, 0x01, 0x01,
+    0x01, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x04, 0x01,       0x01,
+    0x01, 0x14, 0x14, 0x14, 0x14, 0x14, 0x14, 0x14, 0x14, 0x14, 0x14, 0x04, 0x04, 0x04,       0x01,
+    0x09, 0x14, 0x14, 0x14, 0x14, 0x14, 0x14, 0x14, 0x14, 0x14, 0x04, 0x04,       0x01,       0x01,
+    0x01,       0x14, 0x14, 0x14, 0x14, 0x14, 0x14, 0x14, 0x04, 0x04, 0x04,       0x01, 0x01,
+    0x01, 0x01, 0x01,                   0x04,                   0x01, 0x01, 0x01, 0x01, 0x01, 0x01
+};
+
+void keyboard_pre_init_user(void) {
+    // override config.flags with new values
+    for (int i = 0; i < DRIVER_LED_TOTAL; i++) g_led_config.flags[i] = g_led_config_new_flags[i];
 }
+
+#endif  // RGB_MATRIX_ENABLE
 
 
 /* --------------
@@ -127,7 +96,15 @@ void matrix_scan_user(void) {
 
 #ifdef RGB_MATRIX_ENABLE
 
-bool led_sngltn;
+typedef union {
+    uint32_t raw;
+    struct {
+        bool caps_led:1;
+        bool lyr_led:1;
+    };
+} led_sngltn_t;
+
+led_sngltn_t led_sngltn;
 
 #ifndef RGB_MATRIX_MAXIMUM_BRIGHTNESS
     #define Q1_INDICATOR_MAX_BRIGHTNESS 0xFF
@@ -143,7 +120,7 @@ bool led_sngltn;
 
 void update_q1_rgb_mode(void) {
     if (user_config.rgb_disable_led) {
-        rgb_matrix_set_flags(0xF0);  // don't use 0, disables LED to off condition
+        rgb_matrix_set_flags(LED_FLAG_UNUSED);  // don't use 0, disables LED to off condition
         rgb_matrix_set_color_all(HSV_OFF);
     } else {
         rgb_matrix_set_flags(LED_FLAG_ALL);
@@ -159,7 +136,7 @@ void get_q1_rgb_mode(void) {
 }
 
 void keyboard_post_init_user(void) {
-    led_sngltn = false;
+    led_sngltn.raw = 0;
     get_q1_rgb_mode();
 }
 
@@ -169,7 +146,17 @@ void eeconfig_init_user(void) {
     update_q1_rgb_mode();
 }
 
+void __rgb_matrix_set_all_color_by_flag(uint8_t flag, uint8_t R, uint8_t G, uint8_t B) {
+    for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
+        if (0 != (g_led_config.flags[i] & flag)) {
+            rgb_matrix_set_color(i, R, G, B);
+        }
+    }
+}
+
 void rgb_matrix_indicators_user(void) {
+    uint8_t layer = get_highest_layer(layer_state);
+
     uint8_t v = rgb_matrix_get_val();
     if (v < Q1_INDICATOR_VAL_STEP) {
         v = Q1_INDICATOR_VAL_STEP;
@@ -181,18 +168,48 @@ void rgb_matrix_indicators_user(void) {
         v = Q1_INDICATOR_MAX_BRIGHTNESS;
     }
 
+    // caps-lock indicators
     if (host_keyboard_led_state().caps_lock) {
         rgb_matrix_set_color(CAPS_LOCK_LED_INDEX, v, v, v);  // white
-        if (!led_sngltn) led_sngltn = true;
-    } else if (led_sngltn) {
+        if (!user_config.rgb_disable_led)
+            __rgb_matrix_set_all_color_by_flag(LED_FLAG_ALPHA_KEY, v, 0, 0);  // red
+        if (!led_sngltn.caps_led && user_config.rgb_disable_led)
+            led_sngltn.caps_led = true;
+    } else if (led_sngltn.caps_led) {
         rgb_matrix_set_color(CAPS_LOCK_LED_INDEX, HSV_OFF);  // off, if it was on before
-        led_sngltn = false;
+        __rgb_matrix_set_all_color_by_flag(LED_FLAG_ALPHA_KEY, 0, 0, 0);
+        led_sngltn.caps_led = false;
+    }
+
+    // layer indicators
+    switch (layer) {
+        case MAC_FN:
+            __rgb_matrix_set_all_color_by_flag(LED_FLAG_LAYER_IND, 0, 0, v);  // blue
+            if (!led_sngltn.lyr_led)
+                led_sngltn.lyr_led = true;
+            break;
+
+        case WIN_FN:
+            __rgb_matrix_set_all_color_by_flag(LED_FLAG_LAYER_IND, 0, v, 0);  // green
+            if (!led_sngltn.lyr_led && user_config.rgb_disable_led)
+                led_sngltn.lyr_led = true;
+            break;
+
+        // case MAC_BASE:
+        // case WIN_BASE:
+        default:
+            if (led_sngltn.lyr_led && user_config.rgb_disable_led) {
+                __rgb_matrix_set_all_color_by_flag(LED_FLAG_LAYER_IND, 0, 0, 0);  // off
+                led_sngltn.lyr_led = false;
+            }
+            break;  // do nothing
     }
 }
 
-/*
+
+/* ---------------------------------
  * Extra keys and RGB Toggle handler
- */
+ * --------------------------------- */
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {

@@ -7,9 +7,8 @@
  * EEPROM Management
  * ----------------- */
 
-/* An assumption is made that a ST `M24C32-FMN6TP` 32Kbit module is used */
-
-#ifdef USE_EEPROM
+#ifdef EEPROM_ENABLE
+    /* An assumption is made that a ST `M24C32-FMN6TP` 32Kbit module is used */
     /* EEPROM Driver Configuration */
     #define EXTERNAL_EEPROM_I2C_BASE_ADDRESS 0b10100010  // Base I2C address for the EEPROM – shifted left by 1 as per i2c_master requirements
     #define EXTERNAL_EEPROM_BYTE_COUNT 4096              // Total size of the EEPROM in bytes
@@ -17,12 +16,15 @@
     // #define EXTERNAL_EEPROM_ADDRESS_SIZE 2               // The number of bytes to transmit for the memory location within the EEPROM
     // #define EXTERNAL_EEPROM_WRITE_TIME 5                 // Write cycle time of the EEPROM, as specified in the datasheet
     // #undef EXTERNAL_EEPROM_WP_PIN                        // If defined the WP pin will be toggled appropriately when writing to the EEPROM.	none
-#else
+#elif EFL_WL_ENABLE
     /* EFL/WL Driver Configuration */
     #define WEAR_LEVELING_LOGICAL_SIZE 2048                              // Number of bytes "exposed" to the rest of QMK and denotes the size of the usable EEPROM.
     #define WEAR_LEVELING_BACKING_SIZE (WEAR_LEVELING_LOGICAL_SIZE * 2)  // Number of bytes used by the wear-leveling algorithm for its underlying storage, and needs to be a multiple of the logical size.
     #define DYNAMIC_KEYMAP_EEPROM_MAX_ADDR 2047
+#else
+    #error "Please define the compile type in the `rules.mk` file"
 #endif
+
 
 /* ----------
  * DIP switch
@@ -30,6 +32,7 @@
 
 /* DIP switch matrix */
 #define DIP_SWITCH_MATRIX_GRID  { {5,4} }
+#define SCAN_COUNT_MAX 100
 #define MATRIX_MASKED  // Disable DIP switch in matrix data
 
 
@@ -77,7 +80,7 @@
     #define CONSTANT_CURRENT_STEP { 0xA6, 0xA6, 0x50, 0xA6, 0xA6, 0x50, 0xA6, 0xA6, 0x50, 0xA6, 0xA6, 0x50 }
 
     /* Limit maximum brightness of LEDs to {x} out of 255. If not defined maximum brightness is set to 255 */
-    #define RGB_MATRIX_MAXIMUM_BRIGHTNESS 180
+    // #define RGB_MATRIX_MAXIMUM_BRIGHTNESS 180  // don't use, CONSTANT_CURRENT_STEP takes care of this
 
     /* ----------
      * Animations
