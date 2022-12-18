@@ -1,6 +1,6 @@
 # `not_keychron_q1`
 
-This is ***not*** the code to the Keychron Q1/V1 *(but it is the one I use)*.
+This is ***not*** the code to the Keychron Q1 *(but it **is** the one I use)*.
 
 ---
 
@@ -17,12 +17,8 @@ This is ***not*** the code to the Keychron Q1/V1 *(but it is the one I use)*.
 Basically, I wanted to compile from `qmk/qmk_firmware:master` but that code caused me strife.  So I wrote my own, different in the following ways:
 
 * Initially I ported the code to make use of the I²C EEPROM slot on the Q1 PCB. *(This code is still there, but now requires the `EEPROM=1` make command argument added.)*
-* The code consolidated all the different variants in `keychron/qmk_firmware:playground` into one common source code base. *(I'm a huge proponent of refactoring.)*
-* With a recent PR into `qmk/qmk_firmware:develop` QMK admins added a EFL/EL driver that now allows the STM32 flash to run as an emulated EEPROM.  This code is now incorporated and is the default compile.
 
 Use this code to learn from - but it's not endorsed by either Keychron or QMK.
-
-*(As I understand it now: the V1 keyboard uses the same PCB, and as QMK is about the PCB I've rolled that too into this code.)*
 
 ## How To
 

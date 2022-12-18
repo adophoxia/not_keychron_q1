@@ -5,7 +5,4 @@
 - [ ] Default keymap
 - [ ] VIA keymap
 
-- [ ] ISO Knob version
-- [ ] ISO Non-knob version
-
 ***

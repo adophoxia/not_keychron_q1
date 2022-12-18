@@ -7,26 +7,32 @@
 ---
 
 Compile QMK for the Keychron Q1V2 *(and V1)*, using either
+
  - an external EEPROM *(Electrically Erasable Programmable Read-Only Memory)*
 
     ..or..
 
- - @tzarc's EFL *(Embedded Flash Library)* driver and wear-leveling algorithm.
+ - the default ware-leveling firmware from the QMK and Keychron fork repos.
+
+<center>*</center>
 
 &nbsp;
 
 This code in not intended to be compiled as standalone - rather it needs to be incorporated in the source base of the [`qmk/qmk_firmware`](https://github.com/qmk/qmk_firmware) project.
 
-Furthermore - the Keychron Q1/V1 board referred to herein will ***NOT*** work on either the [`keychron/qmk_firmware:playground`](https://github.com/keychron/qmk_firmware/tree/playground) repo:branch, nor the core [`qmk/qmk_firmware:master`](https://github.com/qmk/qmk_firmware/tree/master) repo:branch *(unless it has the EEPROM added on)*
+You can use one of the following repos as the basis of the compile:
 
-> :warning: : Do not compile this code from the Keychron's QMK fork.
+* QMK's master [`qmk/qmk_firmware:master`](https://github.com/qmk/qmk_firmware/tree/master)
+* Keychron's fork [`keychron/qmk_firmware:playground`](https://github.com/keychron/qmk_firmware/tree/playground)
+* The Vial project fork [`vial-kb/vial-qmk`](https://github.com/vial-kb/vial-qmk)
 
+&nbsp;
 
 ## About
 
-This code base supports the entire Keychron Q1V2 -- the STM32 MCU versions --- *(and V1)* board fleet *(excluding the JIS variant)* with one code base and one VIA sideload file.  To compile you will need to either:
+This code base supports the Keychron Q1V2 Ansi Knob.  To compile you will need to either:
 
-1. **EFL and Wear-Leveling**: Compile off the [`qmk/qmk_firmware:develop`](https://github.com/qmk/qmk_firmware/tree/develop) repo:branch, that includes the EFL driver, and the "wear-leveling algorithm" - added with PR's [#16996](https://github.com/qmk/qmk_firmware/pull/16996), [#17651](https://github.com/qmk/qmk_firmware/pull/17651), and  [#17661](https://github.com/qmk/qmk_firmware/pull/17661).
+1. **EFL and Wear-Leveling**: Compile off one of the QMK or QMK forks listed above that includes the EFL/WL driver.
 
     ..or..
 
@@ -36,15 +42,14 @@ This code base supports the entire Keychron Q1V2 -- the STM32 MCU versions --- *
 
     * [**`M24C32-FMN6TP`**](https://www.st.com/en/memories/m24c32-f.html): 32Kbit (8 x 4Kbit) I²C 1MHz 450ns 8-SOIC EEPROM module *(total 4096 bytes)*
 
-    &nbsp;
     > :shrug: : IMO this is the better method
 
 
 ## Why?
 
-When the predecessor of QMK (TMK) was first written, it was written for the Atmel AVR chip, most commonly the [**ATmega32U4**](https://www.microchip.com/en-us/product/ATmega32U4).  This MCU *(MicroController Unit)* featured 32KB Flash *(where the firmware resides)*, ***and*** 1KB EEPROM *(where the dynamic keymap used by VIA and some other variable, but persistent, settings are stored)*.
+When the predecessor of QMK, TMK, was first written, it was written for the Atmel AVR chip, most commonly the [**ATmega32U4**](https://www.microchip.com/en-us/product/ATmega32U4).  This MCU *(MicroController Unit)* featured 32KB Flash *(where the firmware resides)*, ***and*** 1KB EEPROM *(where the dynamic keymap used by VIA and some other variable, but persistent, settings are stored)*.
 
-Evolution of QMK moved on to the ChibiOS/HAL based STMicroelectronics STM32 class of ARM Cortex MCU's .. and in the case of the Q1/V1 this is the [**STM32L432**](https://www.st.com/en/microcontrollers-microprocessors/stm32l432kc.html) that features 256KB Flash *(8x more than the AVR)*, but no EEPROM [[*spec.*](docs/stm32l432kc.pdf)].  To account for the lack of EEPROM, QMK has recently written in an EFL/EL driver *(that uses a portion of the Flash as an emulated EEPROM)*.  This works across a plethora of ARM based MCU's ... **but this method has a caveat**: *Flash is not as durable as EEPROM.*  For example, the STM32L432 spec states that the MCU has a minimum write endurance of 10,000 cycles, where as if you compare it to the [**M24C32-FMN6TP**](https://www.st.com/en/memories/m24c32-f.html) EEPROM IC module [[*spec.*](docs/2371705.pdf)], it's endurance is 4,000,000 write cycles.  This means that, by adding an external EEPROM IC to compliment the MCU, you get a keyboard that can handle 400x more write cycles to it's dynamic keymap / settings storage space.
+Evolution of QMK moved on to the ChibiOS/HAL based STMicroelectronics STM32 class of ARM Cortex MCU's .. and in the case of the Q1/V1 this is the [**STM32L432**](https://www.st.com/en/microcontrollers-microprocessors/stm32l432kc.html) that features 256KB Flash *(8x more than the AVR)*, but no EEPROM [[*spec.*](docs/stm32l432kc.pdf)].  To account for the lack of EEPROM, QMK has recently written in an EFL/WL driver *(that uses a portion of the Flash as an emulated EEPROM)*.  This works across a plethora of ARM based MCU's ... **but this method has a caveat**: *Flash is not as durable as EEPROM.*  For example, the STM32L432 spec states that the MCU has a minimum write endurance of 10,000 cycles, where as if you compare it to the [**M24C32-FMN6TP**](https://www.st.com/en/memories/m24c32-f.html) EEPROM IC module [[*spec.*](docs/2371705.pdf)], it's endurance is 4,000,000 write cycles.  This means that, by adding an external EEPROM IC to compliment the MCU, you get a keyboard that can handle 400x more write cycles to its dynamic keymap / settings storage space.
 
 Now, if you're a YouTuber that uses his "sponsored" KB for 3 days and then stores it - then this is all meaningless and the Emulated EEPROM will do just fine.  But if you've built an end-game unit that you intend to use daily for the next 5-7 years, then this would be something you'd be interested in.
 
@@ -62,10 +67,7 @@ All that is needed is to solder on:
 
 ## Preparation
 
-1. If you haven't already create an instance of the source code on your computer - you'll want to use either a fork of, or a clone of, one of the following:
-
-    * [`qmk/qmk_firmware:develop`](https://github.com/qmk/qmk_firmware/tree/develop) - The `develop` branch at QMK.  *(Works for both external EEPROM and EFL/WL compile.)*
-    * [`qmk/qmk_firmware`](https://github.com/qmk/qmk_firmware) - The core QMK code base.  *(Only works for the external EEPROM compile, __as of July 2022__. After the next quarterly merge this should work on the EFL/WL too.)*
+1. If you haven't already create an instance of the source code on your computer - you'll want to use either a fork of, or a clone of, one of the above listed repos.
 
 2. Navigate to the root of the repo's folder.
 
@@ -86,7 +88,7 @@ All that is needed is to solder on:
 
       - Win:
 
-        ```pwsh
+        ```cmd
         mkdir keyboards/notkeychron
         mklink /D \path\to\this\repo keyboards/notkeychron/q1
         ```
@@ -98,7 +100,7 @@ All that is needed is to solder on:
 
       - Mac & Win
 
-        ```pwsh
+        ```cmd
         git submodule add https://github.com/vinorodrigues/not_keychron_q1
         mkdir keyboards/notkeychron
         git mv not_keychron_q1 keyboards/notkeychron/q1
@@ -108,80 +110,23 @@ All that is needed is to solder on:
 
 5.  That should be it.  You're ready to compile.
 
-    ```pwsh
-    make notkeychron/q1/v2:ansi_knob
+    ```cmd
+    make notkeychron/q1/v2:default
     ```
 
 ## Compile
 
-The source code supports all versions of the Q1 *(and V1)*.  To compile use the following command line:
+The source code supports the Q1V2 Ansi Knob version.  To compile use the following command line:
 
 | Variant | Driver | Compile command |
 |---------|--------|-----------------|
-| Q1V2 Ansi Knob | EFL/WL | `make notkeychron/q1/v2:ansi_knob` <sup>1</sup> |
-| Q1V2 Ansi Knob | ext. EEPROM | `make notkeychron/q1/v2:ansi_knob EEPROM=1` |
-| Q1V2 Ansi | EFL/WL | `make notkeychron/q1/v2:ansi` |
-| :clock2: &nbsp; Q1V2 ISO UK | EFL/WL | `make notkeychron/q1/v2:iso_uk` |
-| :clock230: &nbsp; Q1V2 ISO UK Knob | EFL/WL | `make notkeychron/q1/v2:iso_uk_knob` |
-| | | ***The following are special builds*** |
-| Author's Q1V2 <sup>3</sup> | ext. EEPROM | `make notkeychron/q1/v2:vinorodrigues EEPROM=1` |
-| :clock4: &nbsp; Q1V2 ISO DE Knob <sup>4</sup> | EFL/WL | `make notkeychron/q1/v2:iso_de`  |
-| :clock5: &nbsp; Q1V2 ISO FR Knob <sup>5</sup> | EFL/WL | `make notkeychron/q1/v2:iso_fr`  |
+| Q1V2 Ansi Knob | EFL/WL | `make notkeychron/q1/v2:default` <sup>1</sup> |
+| Q1V2 Ansi Knob | ext. EEPROM | `make notkeychron/q1/v2:default EEPROM=1` |
 
-<small>
+<small><i>
     <sup>1</sup> = Default<br>
-    <sup>2</sup> = Japanese Industrial Standard Layout<br>
-    <sup>3</sup> = macOS only (OS toggle / DIP switch disabled ), Custom LED configurations and Layer lighting example.<br>
-    <sup>4</sup> = German ISO Layout<br>
-    <sup>5</sup> = French ISO Layout<br>
-    :clock12: = Code under development and not published yet
-</small>
+</i></small>
 
-*(The JIS version is shaped differently and will reside in a separate repo.)*
-
-***
-
-## The V1 keyboard
-
-As I understand it, the V1 keyboard uses the same PCB, and as QMK is about the PCB I've rolled that into this code.  The code works with both the Q1V2 and the V1 *(but not the Q1V1 as that is a AVR based PCB)*.
-
-> :shrug: : Yippee - more confusion.
-
-## VIA
-
-The VIA sideload file provided by Keychron will not work in this source - you will need to use the version provided.
-
-See: https://github.com/vinorodrigues/not_keychron_q1/tree/main/the-via
-
-> :shrug: : IMO there is no need to create an instance of each variant of the keyboard ... both QMK and VIA can handle multiple layouts in one source base.
-
-## Vial
-
-Vial's source base does not include the EFL/WL source base yet *(as of 15 Jul 2022 )* ... but the external EEPROM variant will work.
-
-> :information_source: : *For now follow the instructions at https://get.vial.today/docs/*
-
-***
-
-## Wear-Leveling for other KB's
-
-If you have a non-Q1 board you can quickly update your code to work with the EFL/WL code.
-
-1. Copy the `keychron/qmk_firmware:playground` code that matches your KB and then port it into your branch cloned from `qmk/qmk_firmware:develop`.
-
-    Then;
-
-2. in `rules.mk` you want:
-    ```make
-    EEPROM_DRIVER = wear_leveling
-    WEAR_LEVELING_DRIVER = embedded_flash
-    ```
-
-3. and in `config.h` you want:
-    ```c
-    #define WEAR_LEVELING_LOGICAL_SIZE 2048
-    #define WEAR_LEVELING_BACKING_SIZE (WEAR_LEVELING_LOGICAL_SIZE * 2)
-    ```
 
 ***
 
