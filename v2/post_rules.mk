@@ -7,8 +7,3 @@ ifneq ($(strip $(EEPROM)), yes)
 else
 	OPT_DEFS += -DEFL_WL_ENABLE
 endif
-
-FACTORY_RESET ?= yes
-ifeq ($(strip $(FACTORY_RESET)), yes)
-	OPT_DEFS += -DFACTORY_RESET_ENABLE
-endif

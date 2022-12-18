@@ -1,7 +1,19 @@
-// Copyright 2022 Vino Rodrigues (@vinorodrigues)
+// Copyright 2021-2022 Vino Rodrigues (@vinorodrigues)
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 #pragma once
+
+/* ---
+ * I2C
+ * --- */
+
+/* Increase I2C speed to 1000 KHz */
+#define I2C1_TIMINGR_PRESC 0U
+#define I2C1_TIMINGR_SCLDEL 3U
+#define I2C1_TIMINGR_SDADEL 0U
+#define I2C1_TIMINGR_SCLH 15U
+#define I2C1_TIMINGR_SCLL 51U
+
 
 /* -----------------
  * EEPROM Management
@@ -26,65 +38,10 @@
 
 
 /* ----------
- * DIP switch
- * ---------- */
-
-/* DIP switch matrix */
-#define DIP_SWITCH_MATRIX_GRID  { {5,4} }
-#define SCAN_COUNT_MAX 100
-#define MATRIX_MASKED  // Disable DIP switch in matrix data
-
-
-/* ---------------------
- * Encoder Configuration
- * --------------------- */
-
-/* Rotary Encode */
-#define ENCODERS_PAD_A { A10 }
-#define ENCODERS_PAD_B { A8 }
-#define ENCODER_RESOLUTION 4
-#define ENCODER_DEFAULT_POS 0x3
-
-
-/* ----------
  * RGB Matrix
  * ---------- */
 
-// RGB Matrix config
-#ifdef RGB_MATRIX_ENABLE
-    /* RGB Matrix Driver Configuration */
-    #define DRIVER_COUNT 2
-    #define DRIVER_ADDR_1 0b1110111
-    #define DRIVER_ADDR_2 0b1110100
-
-    /* Scan phase of led driver set as MSKPHASE_9CHANNEL(defined as 0x03 in CKLED2001.h) */
-    #define PHASE_CHANNEL MSKPHASE_9CHANNEL
-
-    /* RGB Matrix Configuration */
-    #ifdef IS_ANSI_KNOB
-        #define DRIVER_1_LED_TOTAL 44
-        #define DRIVER_2_LED_TOTAL 37
-    #elif IS_ANSI
-        #define DRIVER_1_LED_TOTAL 45
-        #define DRIVER_2_LED_TOTAL 37
-    #else
-        #error "Unknown board variant"
-    #endif
-    #define DRIVER_LED_TOTAL (DRIVER_1_LED_TOTAL + DRIVER_2_LED_TOTAL)
-
-    /* turn off effects when suspended */
-    #define RGB_DISABLE_WHEN_USB_SUSPENDED
-
-    /* Limit the maximum brightness current of colour white to 500mA */
-    #define CONSTANT_CURRENT_STEP { 0xA6, 0xA6, 0x50, 0xA6, 0xA6, 0x50, 0xA6, 0xA6, 0x50, 0xA6, 0xA6, 0x50 }
-
-    /* Limit maximum brightness of LEDs to {x} out of 255. If not defined maximum brightness is set to 255 */
-    // #define RGB_MATRIX_MAXIMUM_BRIGHTNESS 180  // don't use, CONSTANT_CURRENT_STEP takes care of this
-
-    /* ----------
-     * Animations
-     * ---------- */
-
+//#ifdef RGB_MATRIX_ENABLE
     /* RGB Matrix Animations */
     #define RGB_MATRIX_KEYPRESSES
 
@@ -135,25 +92,4 @@
     #define ENABLE_RGB_MATRIX_MULTISPLASH               // Full gradient & value pulse away from multiple key hits then fades value out
     #define ENABLE_RGB_MATRIX_SOLID_SPLASH              // Hue & value pulse away from a single key hit then fades value out
     #define ENABLE_RGB_MATRIX_SOLID_MULTISPLASH         // Hue & value pulse away from multiple key hits then fades value out
-#endif  // RGB_MATRIX_ENABLE
-
-/* Enable caps-lock LED*/
-#define CAPS_LOCK_LED_INDEX 44  // 3,0
-
-
-/* -----------------------
- * Feature disable options
- * -----------------------
- *  These options are also useful to firmware size reduction.
- */
-
-/* disable debug print */
-//#define NO_DEBUG
-
-/* disable print */
-//#define NO_PRINT
-
-/* disable action features */
-//#define NO_ACTION_LAYER
-//#define NO_ACTION_TAPPING
-//#define NO_ACTION_ONESHOT
+//#endif  // RGB_MATRIX_ENABLE
