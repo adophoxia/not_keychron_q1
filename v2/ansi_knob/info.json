@@ -3,7 +3,8 @@
         "pid": "0x0107",
     },
     "features": {
-        "encoder": true
+        "encoder": true,
+        "rgb_matrix": true
     },
     "matrix_pins": {
         "rows": ["B5", "B4", "B3", "A15", "A14", "A13"],

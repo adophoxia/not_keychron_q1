@@ -1,6 +1,8 @@
 // Copyright 2022 Keychron (https://www.keychron.com)
 // SPDX-License-Identifier: GPL-2.0-or-later
 
+#pragma once
+
 #include "stdint.h"
 #include "quantum_keycodes.h"
 #include "via.h"
