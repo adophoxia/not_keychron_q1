@@ -17,84 +17,14 @@
 
 // clang-format off
 
-#if defined(KEYBOARD_keychron_q0_q0_stm32l432)
-#    define FN1 1
-#    define KC_STEP_1 RGB_SAD // 1
-#    define KC_STEP_2 RGB_HUD // 9
-#    define KC_STEP_3 KC_MPLY // 3
-#    define KC_STEP_4 KC_DEL  // -
-#elif (defined(KEYBOARD_keychron_q2_q2_ansi_stm32l432)      || \
-    defined(KEYBOARD_keychron_q2_q2_ansi_stm32l432_ec11)    || \
-    defined(KEYBOARD_keychron_q2_q2_iso_stm32l432)          || \
-    defined(KEYBOARD_keychron_q2_q2_iso_stm32l432_ec11)     || \
-    defined(KEYBOARD_keychron_q2_q2_jis_stm32l432)          || \
-    defined(KEYBOARD_keychron_q2_q2_jis_stm32l432_ec11)     || \
-    defined(KEYBOARD_keychron_v2_v2_ansi_stm32l432)         || \
-    defined(KEYBOARD_keychron_v2_v2_ansi_stm32l432_ec11)    || \
-    defined(KEYBOARD_keychron_v2_v2_iso_stm32l432)          || \
-    defined(KEYBOARD_keychron_v2_v2_iso_stm32l432_ec11)     || \
-    defined(KEYBOARD_keychron_v2_v2_jis_stm32l432)          || \
-    defined(KEYBOARD_keychron_v2_v2_jis_stm32l432_ec11)     || \
-    defined(KEYBOARD_keychron_q4_q4_iso_stm32l432)          || \
-    defined(KEYBOARD_keychron_q4_q4_rev1_ansi_stm32l432)    || \
-    defined(KEYBOARD_keychron_q4_q4_rev2_ansi_stm32l432)    || \
-    defined(KEYBOARD_keychron_v4_v4_ansi_stm32l432)         || \
-    defined(KEYBOARD_keychron_v4_v4_iso_stm32l432)          || \
-    defined(KEYBOARD_keychron_q7_q7_ansi_stm32l432)         || \
-    defined(KEYBOARD_keychron_q7_q7_iso_stm32l432)          || \
-    defined(KEYBOARD_keychron_v7_v7_ansi_stm32l432)         || \
-    defined(KEYBOARD_keychron_v7_v7_iso_stm32l432)          || \
-    defined(KEYBOARD_keychron_q8_q8_ansi_stm32l432)         || \
-    defined(KEYBOARD_keychron_q8_q8_ansi_stm32l432_ec11)    || \
-    defined(KEYBOARD_keychron_q8_q8_iso_stm32l432)          || \
-    defined(KEYBOARD_keychron_q8_q8_iso_stm32l432_ec11))    || \
-    defined(KEYBOARD_keychron_v8_v8_ansi_stm32l432)         || \
-    defined(KEYBOARD_keychron_v8_v8_ansi_stm32l432_ec11)    || \
-    defined(KEYBOARD_keychron_v8_v8_iso_stm32l432)          || \
-    defined(KEYBOARD_keychron_v8_v8_iso_stm32l432_ec11)     || \
-    defined(KEYBOARD_keychron_q65_q65_ansi_stm32l432_ec11)
-#    define FN1 2
-#    define FN2 3
-#    define KC_STEP_1 KC_J
-#    define KC_STEP_2 KC_Z
-#    define KC_STEP_3 KC_RIGHT
-#    define KC_STEP_4 KC_HOME
-#elif (defined(KEYBOARD_keychron_q9_q9_ansi_stm32l432)       || \
-    defined(KEYBOARD_keychron_q9_q9_ansi_stm32l432_ec11)     || \
-    defined(KEYBOARD_keychron_q9_q9_iso_stm32l432)           || \
-    defined(KEYBOARD_keychron_q9_q9_iso_stm32l432_ec11))
-#    define FN1 2
-#    define FN2 3
-#    define KC_STEP_1 KC_J
-#    define KC_STEP_2 RGB_RMOD
-#    define KC_STEP_3 KC_RIGHT
-#    define KC_STEP_4 KC_HOME
-#elif defined(KEYBOARD_keychron_q11_q11_ansi_stm32l432_ec11)
-#    define FN1 1
-#    define FN2 3
-#    define KC_STEP_1 KC_ESC
-#    define KC_STEP_2 KC_6
-#    define KC_STEP_3 KC_LSFT
-#    define KC_STEP_4 KC_5
-#    define KC_STEP_5 KC_EQL
-#    define KC_STEP_6 KC_M
-#    define KC_STEP_7 KC_RIGHT
-#    define KC_STEP_8 KC_HOME
-#elif defined(KEYBOARD_keychron_q60_q60_ansi_stm32l432)
-#    define FN1 1
-#    define FN2 2
-#    define KC_STEP_1 KC_J
-#    define KC_STEP_2 KC_Z
-#    define KC_STEP_3 KC_B
-#    define KC_STEP_4 KC_L
-#else
-#    define FN1 1
-#    define FN2 3
-#    define KC_STEP_1 KC_J
-#    define KC_STEP_2 KC_Z
-#    define KC_STEP_3 KC_RIGHT
-#    define KC_STEP_4 KC_HOME
-#endif
+
+#define FN1 1
+#define FN2 3
+#define KC_STEP_1 KC_J
+#define KC_STEP_2 KC_Z
+#define KC_STEP_3 KC_RIGHT
+#define KC_STEP_4 KC_HOME
+
 
 // clang-format on
 
@@ -105,7 +35,7 @@ enum {
     LED_TEST_MODE_GREEN,
     LED_TEST_MODE_BLUE,
     LED_TEST_MODE_MAX
-}led_test_mode;
+} led_test_mode;
 
 enum {
     FACTORY_TEST_CMD_BACKLIGHT = 0x01,
@@ -125,79 +55,6 @@ uint8_t factory_reset_count = 0;
 bool report_os_sw_state = false;
 extern matrix_row_t matrix[MATRIX_ROWS];
 
-#if defined(KEYBOARD_keychron_q0_q0_stm32l432)
-bool process_record_ft(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        case MO(FN1):
-            if (record->event.pressed) {
-                key_press_status |= KEY_PRESS_FN;
-            } else {
-                key_press_status &= ~KEY_PRESS_FN;
-                timer_3s_buffer = 0;
-            }
-            return true;
-        case KC_STEP_1:
-            if (record->event.pressed) {
-                key_press_status |= KEY_PRESS_STEP_1;
-                if (key_press_status == KEY_PRESS_FACTORY_RESET) {
-                    timer_3s_buffer = sync_timer_read32();
-                } else {
-                }
-            } else {
-                rgb_matrix_decrease_sat_noeeprom();
-                key_press_status &= ~KEY_PRESS_STEP_1;
-                timer_3s_buffer = 0;
-            }
-            return false; // Skip all further processing of this key
-        case KC_STEP_2:
-            if (record->event.pressed) {
-                key_press_status |= KEY_PRESS_STEP_2;
-                if (key_press_status == KEY_PRESS_FACTORY_RESET) {
-                    timer_3s_buffer = sync_timer_read32();
-                } else {
-                }
-            } else {
-                rgb_matrix_decrease_hue_noeeprom();
-                key_press_status &= ~KEY_PRESS_STEP_2;
-                timer_3s_buffer = 0;
-            }
-            return false; // Skip all further processing of this key
-        case KC_STEP_3:
-            if (record->event.pressed) {
-                key_press_status |= KEY_PRESS_STEP_3;
-                if (led_test_mode) {
-                    if (++led_test_mode >= LED_TEST_MODE_MAX) {
-                        led_test_mode = LED_TEST_MODE_WHITE;
-                    }
-                } else if (key_press_status == KEY_PRESS_LED_TEST) {
-                    timer_3s_buffer = sync_timer_read32();
-                }
-            } else {
-                key_press_status &= ~KEY_PRESS_STEP_3;
-                timer_3s_buffer = 0;
-            }
-            return true;
-        case KC_STEP_4:
-            if (record->event.pressed) {
-                key_press_status |= KEY_PRESS_STEP_4;
-                if (led_test_mode) {
-                    led_test_mode = LED_TEST_MODE_OFF;
-                } else if (key_press_status == KEY_PRESS_LED_TEST) {
-                    timer_3s_buffer = sync_timer_read32();
-                }
-            } else {
-                key_press_status &= ~KEY_PRESS_STEP_4;
-                timer_3s_buffer = 0;
-            }
-            return true;
-        default:
-            return true;
-    }
-}
-#elif (defined(KEYBOARD_keychron_q9_q9_ansi_stm32l432)       || \
-    defined(KEYBOARD_keychron_q9_q9_ansi_stm32l432_ec11)     || \
-    defined(KEYBOARD_keychron_q9_q9_iso_stm32l432)           || \
-    defined(KEYBOARD_keychron_q9_q9_iso_stm32l432_ec11))
 bool process_record_ft(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case MO(FN1):
@@ -225,14 +82,12 @@ bool process_record_ft(uint16_t keycode, keyrecord_t *record) {
                 key_press_status |= KEY_PRESS_STEP_2;
                 if (key_press_status == KEY_PRESS_FACTORY_RESET) {
                     timer_3s_buffer = sync_timer_read32();
-                } else {
-                    rgb_matrix_step_reverse();
                 }
             } else {
                 key_press_status &= ~KEY_PRESS_STEP_2;
                 timer_3s_buffer = 0;
             }
-            return false; // Skip all further processing of this key
+            return true;
         case KC_STEP_3:
             if (record->event.pressed) {
                 key_press_status |= KEY_PRESS_STEP_3;
@@ -265,105 +120,20 @@ bool process_record_ft(uint16_t keycode, keyrecord_t *record) {
             return true;
     }
 }
-#else
-bool process_record_ft(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        case MO(FN1):
-        case MO(FN2):
-            if (record->event.pressed) {
-                key_press_status |= KEY_PRESS_FN;
-            } else {
-                key_press_status &= ~KEY_PRESS_FN;
-                timer_3s_buffer = 0;
-            }
-            return true;
-        case KC_STEP_1:
-#if defined(KEYBOARD_keychron_q11_q11_ansi_stm32l432_ec11)
-        case KC_STEP_5:
-#endif // KEYBOARD_keychron_q11_q11_ansi_stm32l432_ec11
-            if (record->event.pressed) {
-                key_press_status |= KEY_PRESS_STEP_1;
-                if (key_press_status == KEY_PRESS_FACTORY_RESET) {
-                    timer_3s_buffer = sync_timer_read32();
-                }
-            } else {
-                key_press_status &= ~KEY_PRESS_STEP_1;
-                timer_3s_buffer = 0;
-            }
-            return true;
-        case KC_STEP_2:
-#if defined(KEYBOARD_keychron_q11_q11_ansi_stm32l432_ec11)
-        case KC_STEP_6:
-#endif // KEYBOARD_keychron_q11_q11_ansi_stm32l432_ec11
-            if (record->event.pressed) {
-                key_press_status |= KEY_PRESS_STEP_2;
-                if (key_press_status == KEY_PRESS_FACTORY_RESET) {
-                    timer_3s_buffer = sync_timer_read32();
-                }
-            } else {
-                key_press_status &= ~KEY_PRESS_STEP_2;
-                timer_3s_buffer = 0;
-            }
-            return true;
-        case KC_STEP_3:
-#if defined(KEYBOARD_keychron_q11_q11_ansi_stm32l432_ec11)
-        case KC_STEP_7:
-#endif // KEYBOARD_keychron_q11_q11_ansi_stm32l432_ec11
-            if (record->event.pressed) {
-                key_press_status |= KEY_PRESS_STEP_3;
-                if (led_test_mode) {
-                    if (++led_test_mode >= LED_TEST_MODE_MAX) {
-                        led_test_mode = LED_TEST_MODE_WHITE;
-                    }
-                } else if (key_press_status == KEY_PRESS_LED_TEST) {
-                    timer_3s_buffer = sync_timer_read32();
-                }
-            } else {
-                key_press_status &= ~KEY_PRESS_STEP_3;
-                timer_3s_buffer = 0;
-            }
-            return true;
-        case KC_STEP_4:
-#if defined(KEYBOARD_keychron_q11_q11_ansi_stm32l432_ec11)
-        case KC_STEP_8:
-#endif // KEYBOARD_keychron_q11_q11_ansi_stm32l432_ec11
-            if (record->event.pressed) {
-                key_press_status |= KEY_PRESS_STEP_4;
-                if (led_test_mode) {
-                    led_test_mode = LED_TEST_MODE_OFF;
-                } else if (key_press_status == KEY_PRESS_LED_TEST) {
-                    timer_3s_buffer = sync_timer_read32();
-                }
-            } else {
-                key_press_status &= ~KEY_PRESS_STEP_4;
-                timer_3s_buffer = 0;
-            }
-            return true;
-        default:
-            return true;
-    }
-}
-#endif
 
-static void factory_reset(void) {
+void factory_reset(void) {
     timer_300ms_buffer = sync_timer_read32();
     factory_reset_count++;
     layer_state_t default_layer_tmp = default_layer_state;
     eeconfig_init();
     default_layer_set(default_layer_tmp);
     led_test_mode = LED_TEST_MODE_OFF;
-#ifdef LED_MATRIX_ENABLE
-    if (!led_matrix_is_enabled()) {
-        led_matrix_enable();
-    }
-    led_matrix_init();
-#endif
-#ifdef RGB_MATRIX_ENABLE
+    #ifdef RGB_MATRIX_ENABLE
     if (!rgb_matrix_is_enabled()) {
         rgb_matrix_enable();
     }
     rgb_matrix_init();
-#endif
+    #endif
 }
 
 static void timer_3s_task(void) {
@@ -373,16 +143,11 @@ static void timer_3s_task(void) {
             factory_reset();
         } else if (key_press_status == KEY_PRESS_LED_TEST) {
             led_test_mode = LED_TEST_MODE_WHITE;
-#ifdef LED_MATRIX_ENABLE
-            if (!led_matrix_is_enabled()) {
-                led_matrix_enable();
-            }
-#endif // LED_MATRIX_ENABLE
-#ifdef RGB_MATRIX_ENABLE
+            #ifdef RGB_MATRIX_ENABLE
             if (!rgb_matrix_is_enabled()) {
                 rgb_matrix_enable();
             }
-#endif // RGB_MATRIX_ENABLE
+            #endif // RGB_MATRIX_ENABLE
         }
         key_press_status = 0;
     }
@@ -398,17 +163,6 @@ static void timer_300ms_task(void) {
         }
     }
 }
-
-#ifdef LED_MATRIX_ENABLE
-bool led_matrix_indicators_advanced_ft(uint8_t led_min, uint8_t led_max) {
-    if (factory_reset_count) {
-        for (uint8_t i = led_min; i <= led_max; i++) {
-            led_matrix_set_value(i, factory_reset_count % 2 ? 0 : UINT8_MAX);
-        }
-    }
-    return true;
-}
-#endif // LED_MATRIX_ENABLE
 
 #ifdef RGB_MATRIX_ENABLE
 bool rgb_matrix_indicators_advanced_ft(uint8_t led_min, uint8_t led_max) {
@@ -463,11 +217,11 @@ static void system_switch_state_report(uint8_t index, bool active) {
     if (report_os_sw_state) {
         payload[0] = FACTORY_TEST_CMD_OS_SWITCH;
         payload[1] = OS_SWITCH;
-#if defined(OS_SWITCH_REVERSE)
+        #if defined(OS_SWITCH_REVERSE)
         payload[2] = !active;
-#else
+        #else
         payload[2] = active;
-#endif
+        #endif
         data[0] = 0xAB;
         memcpy(&data[1], payload, 3);
         for (uint8_t i=1; i<RAW_EPSIZE-3; i++ ) {

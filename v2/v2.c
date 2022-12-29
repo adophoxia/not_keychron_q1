@@ -20,7 +20,7 @@ bool dip_switch_update_kb(uint8_t index, bool active) {
 bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
     if (!process_record_user(keycode, record)) { return false; }
     switch (keycode) {
-#ifdef RGB_MATRIX_ENABLE
+        #ifdef RGB_MATRIX_ENABLE
         case RGB_TOG:
             if (record->event.pressed) {
                 switch (rgb_matrix_get_flags()) {
@@ -38,17 +38,17 @@ bool process_record_kb(uint16_t keycode, keyrecord_t *record) {
                 rgb_matrix_enable();
             }
             return false;
-#endif
+            #endif
     }
     return true;
 }
 
-#ifndef VIAL_PROTOCOL_VERSION
+#ifndef VIAL_ENABLE
 bool rgb_matrix_indicators_advanced_kb(uint8_t led_min, uint8_t led_max) {
 #else
 void rgb_matrix_indicators_advanced_kb(uint8_t led_min, uint8_t led_max) {
 #endif
-    #ifndef VIAL_PROTOCOL_VERSION
+    #ifndef VIAL_ENABLE
     if (!rgb_matrix_indicators_advanced_user(led_min, led_max)) { return false; }
     // #else
     // do nothing, prior versions called `*_kb` & `*_user` sequentially
@@ -62,7 +62,9 @@ void rgb_matrix_indicators_advanced_kb(uint8_t led_min, uint8_t led_max) {
            RGB_MATRIX_INDICATOR_SET_COLOR(CAPS_LOCK_LED_INDEX, 0, 0, 0);
         }
     }
+    #ifndef VIAL_ENABLE
     return true;
+    #endif
 }
 
 #endif // CAPS_LOCK_LED_INDEX

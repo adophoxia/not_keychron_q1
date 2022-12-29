@@ -48,13 +48,6 @@ bool process_record_keychron(uint16_t keycode, keyrecord_t *record) {
                 host_consumer_send(0);
             }
             return false;  // Skip all further processing of this key
-        // case KC_DND:
-        //     if (record->event.pressed) {
-        //         host_system_send(0x9B);
-        //     } else {
-        //         host_system_send(0);
-        //     }
-        //     return false; // Skip all further processing of this key
         case KC_LOPTN:
         case KC_ROPTN:
         case KC_LCMMD:
@@ -113,12 +106,3 @@ bool rgb_matrix_indicators_advanced_keychron(uint8_t led_min, uint8_t led_max) {
     return true;
 }
 #endif // RGB_MATRIX_ENABLE
-
-#ifdef LED_MATRIX_ENABLE
-bool led_matrix_indicators_advanced_keychron(uint8_t led_min, uint8_t led_max) {
-    if (!led_matrix_indicators_advanced_ft(led_min, led_max)) {
-        return false;
-    }
-    return true;
-}
-#endif // LED_MATRIX_ENABLE

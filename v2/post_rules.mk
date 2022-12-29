@@ -4,6 +4,4 @@
 EEPROM ?= yes
 ifneq ($(strip $(EEPROM)), yes)
 	OPT_DEFS += -DEEPROM_ENABLE
-else
-	OPT_DEFS += -DEFL_WL_ENABLE
 endif
