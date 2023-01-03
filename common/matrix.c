@@ -4,12 +4,12 @@
 #include "matrix.h"
 #include "quantum.h"
 
-// Pin connected to DS of 74HC595
-#define DATA_PIN A7
-// Pin connected to SH_CP of 74HC595
-#define CLOCK_PIN B1
-// Pin connected to ST_CP of 74HC595
-#define LATCH_PIN B0
+#ifndef PIN_USED_74HC595
+#    define PIN_USED_74HC595 8
+#endif
+#ifndef PIN_START_74HC595
+#    define PIN_START_74HC595 8
+#endif
 
 #ifdef MATRIX_ROW_PINS
 static pin_t row_pins[MATRIX_ROWS] = MATRIX_ROW_PINS;
@@ -18,7 +18,7 @@ static pin_t row_pins[MATRIX_ROWS] = MATRIX_ROW_PINS;
 static pin_t col_pins[MATRIX_COLS] = MATRIX_COL_PINS;
 #endif // MATRIX_COL_PINS
 
-#define ROWS_PER_HAND MATRIX_ROWS
+#define ROWS_PER_HAND (MATRIX_ROWS)
 
 static inline void setPinOutput_writeLow(pin_t pin) {
     ATOMIC_BLOCK_FORCEON {
@@ -52,25 +52,25 @@ static inline uint8_t readMatrixPin(pin_t pin) {
 #define small_delay() __asm__ __volatile__("nop;nop;nop;\n\t" ::: "memory")
 #define compiler_barrier() __asm__ __volatile__("" ::: "memory")
 
-static void shiftOut(uint8_t dataOut) {
+static void shiftOut(uint16_t dataOut) {
     ATOMIC_BLOCK_FORCEON {
-        for (uint8_t i = 0; i < 8; i++) {
+        for (uint8_t i = 0; i < PIN_USED_74HC595; i++) {
             compiler_barrier();
             if (dataOut & 0x1) {
-                writePinHigh(DATA_PIN);
+                writePinHigh(DATA_PIN_74HC595);
             } else {
-                writePinLow(DATA_PIN);
+                writePinLow(DATA_PIN_74HC595);
             }
             dataOut = dataOut >> 1;
             compiler_barrier();
-            writePinHigh(CLOCK_PIN);
+            writePinHigh(CLOCK_PIN_74HC595);
             small_delay();
-            writePinLow(CLOCK_PIN);
+            writePinLow(CLOCK_PIN_74HC595);
         }
         compiler_barrier();
-        writePinHigh(LATCH_PIN);
+        writePinHigh(LATCH_PIN_74HC595);
         small_delay();
-        writePinLow(LATCH_PIN);
+        writePinLow(LATCH_PIN_74HC595);
         compiler_barrier();
     }
 }
@@ -79,18 +79,18 @@ static void shiftOut_single(uint8_t data) {
     ATOMIC_BLOCK_FORCEON {
         compiler_barrier();
         if (data & 0x1) {
-            writePinHigh(DATA_PIN);
+            writePinHigh(DATA_PIN_74HC595);
         } else {
-            writePinLow(DATA_PIN);
+            writePinLow(DATA_PIN_74HC595);
         }
         compiler_barrier();
-        writePinHigh(CLOCK_PIN);
+        writePinHigh(CLOCK_PIN_74HC595);
         small_delay();
-        writePinLow(CLOCK_PIN);
+        writePinLow(CLOCK_PIN_74HC595);
         compiler_barrier();
-        writePinHigh(LATCH_PIN);
+        writePinHigh(LATCH_PIN_74HC595);
         small_delay();
-        writePinLow(LATCH_PIN);
+        writePinLow(LATCH_PIN_74HC595);
         compiler_barrier();
     }
 }
@@ -102,7 +102,7 @@ static bool select_col(uint8_t col) {
         setPinOutput_writeLow(pin);
         return true;
     } else {
-        if (col == 8) {
+        if (col == PIN_START_74HC595) {
             shiftOut_single(0x00);
         }
         return true;
@@ -125,26 +125,27 @@ static void unselect_col(uint8_t col) {
 }
 
 static void unselect_cols(void) {
+    // unselect column pins
     for (uint8_t x = 0; x < MATRIX_COLS; x++) {
         pin_t pin = col_pins[x];
+
         if (pin != NO_PIN) {
 #ifdef MATRIX_UNSELECT_DRIVE_HIGH
             setPinOutput_writeHigh(pin);
 #else
             setPinInputHigh_atomic(pin);
 #endif
-        } else {
-            if (x == 8)
-                // unselect shift Register
-                shiftOut(0xFF);
         }
+        if (x == PIN_START_74HC595)
+            // unselect Shift Register
+            shiftOut(0xFFFF);
     }
 }
 
 static void matrix_init_pins(void) {
-    setPinOutput(DATA_PIN);
-    setPinOutput(CLOCK_PIN);
-    setPinOutput(LATCH_PIN);
+    setPinOutput(DATA_PIN_74HC595);
+    setPinOutput(CLOCK_PIN_74HC595);
+    setPinOutput(LATCH_PIN_74HC595);
 #ifdef MATRIX_UNSELECT_DRIVE_HIGH
     for (uint8_t x = 0; x < MATRIX_COLS; x++) {
         if (col_pins[x] != NO_PIN) {

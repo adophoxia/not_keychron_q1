@@ -3,6 +3,31 @@
 
 #pragma once
 
+/* ------
+ * Matrix
+ * ------ */
+
+// *** MATRIX_ROW_PINS & MATRIX_COL_PINS from `info.json`
+
+/* Pin connected to DS of 74HC595 */
+#define DATA_PIN_74HC595 A7
+/* Pin connected to SH_CP of 74HC595 */
+#define CLOCK_PIN_74HC595 B1
+/* Pin connected to ST_CP of 74HC595 */
+#define LATCH_PIN_74HC595 B0
+
+
+/* ----------
+ * DIP Switch
+ * ---------- */
+
+/* DIP switch */
+#define DIP_SWITCH_MATRIX_GRID  { {5,4} }
+
+/* Disable DIP switch in matrix data */
+#define MATRIX_MASKED
+
+
 
 /* ---
  * I2C
@@ -31,11 +56,23 @@
     // #undef EXTERNAL_EEPROM_WP_PIN                        // If defined the WP pin will be toggled appropriately when writing to the EEPROM.	none
 #elif EFL_WL_ENABLE
     /* EFL/WL Driver Configuration */
-    #define WEAR_LEVELING_LOGICAL_SIZE 2048                              // Number of bytes "exposed" to the rest of QMK and denotes the size of the usable EEPROM.
+    #define WEAR_LEVELING_LOGICAL_SIZE 4096                              // Number of bytes "exposed" to the rest of QMK and denotes the size of the usable EEPROM.
     #define WEAR_LEVELING_BACKING_SIZE (WEAR_LEVELING_LOGICAL_SIZE * 2)  // Number of bytes used by the wear-leveling algorithm for its underlying storage, and needs to be a multiple of the logical size.
 #else
     #error "Please define the compile type in the `rules.mk` file"
 #endif
+
+
+/* -------
+ * General
+ * ------- */
+
+/* Enable receive custom command from host */
+#define RAW_HID_CMD 0xAB
+
+/* make tap and hold keys work better for fast typists, or for high TAPPING_TERM settings  */
+#define HOLD_ON_OTHER_KEY_PRESS
+
 
 
 /* ----------
@@ -43,6 +80,14 @@
  * ---------- */
 
 //#ifdef RGB_MATRIX_ENABLE
+
+    /* CKLED2001 driver */
+    #define PHASE_CHANNEL MSKPHASE_9CHANNEL
+    #define CKLED2001_CURRENT_TUNE { 0xA6, 0xA6, 0x50, 0xA6, 0xA6, 0x50, 0xA6, 0xA6, 0x50, 0xA6, 0xA6, 0x50 }
+
+    /* Disable RGB lighting when PC is in suspend */
+    #define RGB_DISABLE_WHEN_USB_SUSPENDED
+
     /* RGB Matrix Animations */
     #define RGB_MATRIX_KEYPRESSES
 
@@ -94,3 +139,19 @@
     #define ENABLE_RGB_MATRIX_SOLID_SPLASH              // Hue & value pulse away from a single key hit then fades value out
     #define ENABLE_RGB_MATRIX_SOLID_MULTISPLASH         // Hue & value pulse away from multiple key hits then fades value out
 //#endif  // RGB_MATRIX_ENABLE
+
+
+/* --------
+ * Encoders
+ * -------- */
+
+// *** ENCODERS_PAD_A, ENCODERS_PAD_B from `info.json`
+#define ENCODER_RESOLUTION 4
+#define ENCODER_DEFAULT_POS 0x3
+
+
+/* --------
+ * Keychron
+ * -------- */
+
+#define CAPS_LOCK_LED_INDEX 45
