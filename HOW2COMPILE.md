@@ -65,68 +65,9 @@ All that is needed is to solder on:
 
 > :information_source: : If you're compiling for the EFL/WL driver you don't need to solder anything.
 
-## Preparation
+## How?
 
-1. If you haven't already create an instance of the source code on your computer - you'll want to use either a fork of, or a clone of, one of the above listed repos.
-
-2. Navigate to the root of the repo's folder.
-
-3. Create and activate a new **branch**. *(Never write to the `master` or `main` branch!)*
-
-    > :stop_sign:	: If you don't know how to do that then stop here - you may need to brush up on your Git skills.
-
-4. Either:
-
-    a. Create a symbolic link to this repo pulled onto your computer;
-
-      - Mac:
-
-        ```bash
-        mkdir keyboards/notkeychron
-        ln -s /path/to/this/repo keyboards/notkeychron/q1
-        ```
-
-      - Win:
-
-        ```cmd
-        mkdir keyboards/notkeychron
-        mklink /D \path\to\this\repo keyboards/notkeychron/q1
-        ```
-
-
-        .. or ..
-
-    b. Create a "submodule" to this repo and then move the module to the correct folder;
-
-      - Mac & Win
-
-        ```cmd
-        git submodule add https://github.com/vinorodrigues/not_keychron_q1
-        mkdir keyboards/notkeychron
-        git mv not_keychron_q1 keyboards/notkeychron/q1
-        ```
-
-        > :shrug: : IMO this is the better method
-
-5.  That should be it.  You're ready to compile.
-
-    ```cmd
-    make notkeychron/q1/v2:default
-    ```
-
-## Compile
-
-The source code supports the Q1V2 Ansi Knob version.  To compile use the following command line:
-
-| Variant | Driver | Compile command |
-|---------|--------|-----------------|
-| Q1V2 Ansi Knob | EFL/WL | `make notkeychron/q1/v2:default` <sup>1</sup> |
-| Q1V2 Ansi Knob | ext. EEPROM | `make notkeychron/q1/v2:default EEPROM=1` |
-
-<small><i>
-    <sup>1</sup> = Default<br>
-</i></small>
-
+The code is intended to be a **replacement** of the existing code.
 
 ***
 
